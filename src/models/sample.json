@@ -1,0 +1,555 @@
+{
+    "available_group": [
+        {
+            "user_address_id": 0,
+            "shipment_information": {
+                "shop_location": "Kota Surabaya",
+                "estimation": "",
+                "free_shipping": {
+                    "eligible": false,
+                    "badge_url": "",
+                    "__typename": "ShipmentInformationFreeShippingData"
+                },
+                "preorder": {
+                    "is_preorder": false,
+                    "duration": "",
+                    "__typename": "ShipmentInformationPreorderData"
+                },
+                "__typename": "ShipmentInformationData"
+            },
+            "shop": {
+                "shop_alert_message": "",
+                "shop_id": 6334987,
+                "user_id": 70067868,
+                "shop_name": "Doran Gadget",
+                "shop_image": "https://ecs7-p.tokopedia.net/img/cache/215-square/GAnVPX/2020/11/11/bbbed5d9-1027-4aa0-ada3-79dc1258ac08.jpg",
+                "shop_url": "https://www.tokopedia.com/dorangadget",
+                "shop_status": 1,
+                "is_gold": 1,
+                "is_official": 1,
+                "gold_merchant": {
+                    "is_gold": 0,
+                    "is_gold_badge": false,
+                    "gold_merchant_logo_url": "",
+                    "__typename": "GoldMerchantType"
+                },
+                "official_store": {
+                    "is_official": 1,
+                    "os_logo_url": "https://ecs7.tokopedia.net/img/official_store/badge_os128.png",
+                    "__typename": "OfficialStoreType"
+                },
+                "address_id": 3537,
+                "postal_code": "60134",
+                "latitude": "-7.2462361516536475",
+                "longitude": "112.77542397379875",
+                "district_id": 3537,
+                "district_name": "",
+                "origin": 0,
+                "address_street": "",
+                "province_id": 0,
+                "city_id": 252,
+                "city_name": "Kota Surabaya",
+                "province_name": "",
+                "country_name": "",
+                "is_allow_manage": false,
+                "shop_domain": "dorangadget",
+                "__typename": "CartShop"
+            },
+            "promo_codes": [],
+            "cart_string": "6334987-0-6559368",
+            "cart_details": [
+                {
+                    "cart_id": "2258098407",
+                    "product": {
+                        "isWishlist": false,
+                        "product_id": 518027608,
+                        "product_name": "Handsfree / Headset / Earphone / EarPods JETE CELLO",
+                        "product_price_fmt": "Rp 28.800",
+                        "product_price": 28800,
+                        "parent_id": 0,
+                        "category_id": 565,
+                        "category": "Elektronik / Audio / Earphone",
+                        "catalog_id": 0,
+                        "wholesale_price": [],
+                        "product_weight": 150,
+                        "product_weight_fmt": "150gr",
+                        "product_condition": 1,
+                        "product_status": 1,
+                        "product_url": "https://www.tokopedia.com/dorangadget/handsfree-headset-earphone-earpods-jete-cello",
+                        "is_preorder": 0,
+                        "product_cashback": "",
+                        "product_min_order": 1,
+                        "product_max_order": 9994,
+                        "product_rating": "0.000000",
+                        "product_invenage_value": 9994,
+                        "product_invenage_total": {
+                            "by_user": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_user_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_user": false,
+                            "by_product": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_product_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_product": false,
+                            "__typename": "Pita"
+                        },
+                        "product_switch_invenage": 1,
+                        "product_information": [],
+                        "price_changes": {
+                            "changes_state": 0,
+                            "amount_difference": 0,
+                            "original_amount": 0,
+                            "description": "",
+                            "__typename": "PriceChanges"
+                        },
+                        "product_image": {
+                            "image_src_100_square": "https://ecs7.tokopedia.net/img/cache/100-square/product-1/2020/7/1/70067868/70067868_5cb65be0-1288-4700-a37a-39075168f968_1080_1080",
+                            "__typename": "CartProductImage"
+                        },
+                        "product_notes": "",
+                        "product_quantity": 1,
+                        "product_weight_unit_code": 1,
+                        "product_weight_unit_text": "gr",
+                        "last_update_price": "1582086560",
+                        "is_update_price": false,
+                        "product_preorder": {
+                            "duration_day": "0",
+                            "duration_text": "",
+                            "duration_unit_code": "0",
+                            "duration_unit_text": "",
+                            "duration_value": "0",
+                            "__typename": "CartProductPreorder"
+                        },
+                        "campaign_id": -10000,
+                        "product_original_price": 50000,
+                        "product_price_original_fmt": "Rp 50.000",
+                        "is_slash_price": false,
+                        "product_finsurance": 0,
+                        "is_wishlisted": false,
+                        "is_ppp": false,
+                        "is_cod": false,
+                        "warehouse_id": 6559368,
+                        "is_parent": false,
+                        "is_campaign_error": false,
+                        "is_blacklisted": false,
+                        "free_shipping": {
+                            "eligible": false,
+                            "badge_url": "",
+                            "__typename": "FreeShippingArmy"
+                        },
+                        "booking_stock": 0,
+                        "product_variant": {
+                            "parent_id": 0,
+                            "default_child": 0,
+                            "variant": [],
+                            "__typename": "CartProductVariant"
+                        },
+                        "is_product_volume_weight": false,
+                        "initial_price": 0,
+                        "initial_price_fmt": "Rp0",
+                        "slash_price_label": "43%",
+                        "product_warning_message": "",
+                        "product_alert_message": "",
+                        "variant_description_detail": {
+                            "variant_name": [],
+                            "variant_description": "",
+                            "__typename": "VariantDescriptionDetailData"
+                        },
+                        "__typename": "CartProduct"
+                    },
+                    "errors": [],
+                    "messages": [],
+                    "checkbox_state": false,
+                    "__typename": "CartDetailsType"
+                }
+            ],
+            "errors": [],
+            "sort_key": 2258098407,
+            "is_fulfillment_service": false,
+            "warehouse": {
+                "warehouse_id": 6559368,
+                "shop_id": 6334987,
+                "warehouse_name": "Shop Location",
+                "is_fulfillment": false,
+                "__typename": "WarehouseType"
+            },
+            "checkbox_state": false,
+            "__typename": "CartRevampGroup"
+        },
+        {
+            "user_address_id": 0,
+            "shipment_information": {
+                "shop_location": "Jakarta Barat",
+                "estimation": "",
+                "free_shipping": {
+                    "eligible": false,
+                    "badge_url": "",
+                    "__typename": "ShipmentInformationFreeShippingData"
+                },
+                "preorder": {
+                    "is_preorder": false,
+                    "duration": "",
+                    "__typename": "ShipmentInformationPreorderData"
+                },
+                "__typename": "ShipmentInformationData"
+            },
+            "shop": {
+                "shop_alert_message": "",
+                "shop_id": 867657,
+                "user_id": 6334822,
+                "shop_name": "Midio",
+                "shop_image": "https://ecs7-p.tokopedia.net/img/cache/215-square/shops-1/2018/10/15/867657/867657_d0c88e5e-3335-4864-8a58-97f57be2a2d0.jpg",
+                "shop_url": "https://www.tokopedia.com/midio",
+                "shop_status": 1,
+                "is_gold": 1,
+                "is_official": 1,
+                "gold_merchant": {
+                    "is_gold": 0,
+                    "is_gold_badge": false,
+                    "gold_merchant_logo_url": "",
+                    "__typename": "GoldMerchantType"
+                },
+                "official_store": {
+                    "is_official": 1,
+                    "os_logo_url": "https://ecs7.tokopedia.net/img/official_store/badge_os128.png",
+                    "__typename": "OfficialStoreType"
+                },
+                "address_id": 2255,
+                "postal_code": "11830",
+                "latitude": "-6.1366788357499455",
+                "longitude": "106.70926325581974",
+                "district_id": 2255,
+                "district_name": "",
+                "origin": 0,
+                "address_street": "",
+                "province_id": 0,
+                "city_id": 174,
+                "city_name": "Jakarta Barat",
+                "province_name": "",
+                "country_name": "",
+                "is_allow_manage": false,
+                "shop_domain": "midio",
+                "__typename": "CartShop"
+            },
+            "promo_codes": [],
+            "cart_string": "867657-0-465140",
+            "cart_details": [
+                {
+                    "cart_id": "2207009613",
+                    "product": {
+                        "product_tracker_data": {
+                            "attribution": "",
+                            "tracker_list_name": "",
+                            "__typename": "ProductTrackerDataType"
+                        },
+                        "isWishlist": false,
+                        "product_id": 1275517708,
+                        "product_name": "Klip Orange Backdrop Clamp Studio Fotografi Penjepit Background MEDIUM",
+                        "product_price_fmt": "Rp7.500",
+                        "product_price": 7500,
+                        "parent_id": 0,
+                        "category_id": 4348,
+                        "category": "Kamera / Lighting & Studio / Backdrop",
+                        "catalog_id": 0,
+                        "wholesale_price": [
+                            {
+                                "qty_min": 4,
+                                "qty_min_fmt": "4",
+                                "qty_max": 9,
+                                "qty_max_fmt": "9",
+                                "prd_prc": 7200,
+                                "prd_prc_fmt": "Rp7.200",
+                                "__typename": "CartWholesalePrice"
+                            },
+                            {
+                                "qty_min": 10,
+                                "qty_min_fmt": "10",
+                                "qty_max": 19,
+                                "qty_max_fmt": "19",
+                                "prd_prc": 7000,
+                                "prd_prc_fmt": "Rp7.000",
+                                "__typename": "CartWholesalePrice"
+                            },
+                            {
+                                "qty_min": 20,
+                                "qty_min_fmt": "20",
+                                "qty_max": 49,
+                                "qty_max_fmt": "49",
+                                "prd_prc": 6900,
+                                "prd_prc_fmt": "Rp6.900",
+                                "__typename": "CartWholesalePrice"
+                            },
+                            {
+                                "qty_min": 50,
+                                "qty_min_fmt": "50",
+                                "qty_max": 10000,
+                                "qty_max_fmt": "10.000",
+                                "prd_prc": 6700,
+                                "prd_prc_fmt": "Rp6.700",
+                                "__typename": "CartWholesalePrice"
+                            }
+                        ],
+                        "product_weight": 50,
+                        "product_weight_fmt": "50gr",
+                        "product_condition": 1,
+                        "product_status": 1,
+                        "product_url": "https://www.tokopedia.com/midio/klip-orange-backdrop-clamp-studio-fotografi-penjepit-background-medium",
+                        "is_preorder": 0,
+                        "product_cashback": "",
+                        "product_min_order": 1,
+                        "product_max_order": 30000,
+                        "product_rating": "0.000000",
+                        "product_invenage_value": 1000,
+                        "product_invenage_total": {
+                            "by_user": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_user_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_user": false,
+                            "by_product": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_product_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_product": false,
+                            "__typename": "Pita"
+                        },
+                        "product_switch_invenage": 1,
+                        "product_information": [],
+                        "price_changes": {
+                            "changes_state": 0,
+                            "amount_difference": 0,
+                            "original_amount": 0,
+                            "description": "",
+                            "__typename": "PriceChanges"
+                        },
+                        "product_image": {
+                            "image_src_100_square": "https://ecs7.tokopedia.net/img/cache/100-square/attachment/2021/1/21/65580410/65580410_4d35ffc0-53ff-4c71-b26e-edb90c106b68.jpg",
+                            "__typename": "CartProductImage"
+                        },
+                        "product_notes": "",
+                        "product_quantity": 1,
+                        "product_weight_unit_code": 1,
+                        "product_weight_unit_text": "gr",
+                        "last_update_price": "1603291302",
+                        "is_update_price": false,
+                        "product_preorder": {
+                            "duration_day": "0",
+                            "duration_text": "",
+                            "duration_unit_code": "0",
+                            "duration_unit_text": "",
+                            "duration_value": "0",
+                            "__typename": "CartProductPreorder"
+                        },
+                        "campaign_id": 0,
+                        "product_original_price": 0,
+                        "product_price_original_fmt": "",
+                        "is_slash_price": false,
+                        "product_finsurance": 0,
+                        "is_wishlisted": false,
+                        "is_ppp": false,
+                        "is_cod": false,
+                        "warehouse_id": 465140,
+                        "is_parent": false,
+                        "is_campaign_error": false,
+                        "is_blacklisted": false,
+                        "free_shipping": {
+                            "eligible": false,
+                            "badge_url": "",
+                            "__typename": "FreeShippingArmy"
+                        },
+                        "booking_stock": 0,
+                        "product_variant": {
+                            "parent_id": 0,
+                            "default_child": 0,
+                            "variant": [],
+                            "__typename": "CartProductVariant"
+                        },
+                        "is_product_volume_weight": false,
+                        "initial_price": 0,
+                        "initial_price_fmt": "Rp0",
+                        "slash_price_label": "",
+                        "product_warning_message": "",
+                        "product_alert_message": "",
+                        "variant_description_detail": {
+                            "variant_name": [],
+                            "variant_description": "",
+                            "__typename": "VariantDescriptionDetailData"
+                        },
+                        "__typename": "CartProduct"
+                    },
+                    "errors": [],
+                    "messages": [],
+                    "checkbox_state": false,
+                    "__typename": "CartDetailsType"
+                },
+                {
+                    "cart_id": "2207000529",
+                    "product": {
+                        "product_tracker_data": {
+                            "attribution": "",
+                            "tracker_list_name": "",
+                            "__typename": "ProductTrackerDataType"
+                        },
+                        "isWishlist": false,
+                        "product_id": 1392703721,
+                        "product_name": "Midio Gorilla Tripod Ukuran Small Plus Bonus Holder U",
+                        "product_price_fmt": "Rp24.000",
+                        "product_price": 24000,
+                        "parent_id": 0,
+                        "category_id": 592,
+                        "category": "Kamera / Aksesoris Kamera / Tripod Kamera",
+                        "catalog_id": 0,
+                        "wholesale_price": [],
+                        "product_weight": 100,
+                        "product_weight_fmt": "100gr",
+                        "product_condition": 1,
+                        "product_status": 1,
+                        "product_url": "https://www.tokopedia.com/midio/midio-gorilla-tripod-ukuran-small-plus-bonus-holder-u",
+                        "is_preorder": 0,
+                        "product_cashback": "",
+                        "product_min_order": 1,
+                        "product_max_order": 30000,
+                        "product_rating": "0.000000",
+                        "product_invenage_value": 38,
+                        "product_invenage_total": {
+                            "by_user": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_user_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_user": false,
+                            "by_product": {
+                                "in_cart": 0,
+                                "last_stock_less_than": 0,
+                                "__typename": "PitaCountOption"
+                            },
+                            "by_product_text": {
+                                "in_cart": "",
+                                "last_stock_less_than": "",
+                                "complete": "",
+                                "__typename": "PitaTextOption"
+                            },
+                            "is_counted_by_product": false,
+                            "__typename": "Pita"
+                        },
+                        "product_switch_invenage": 1,
+                        "product_information": [],
+                        "price_changes": {
+                            "changes_state": 0,
+                            "amount_difference": 0,
+                            "original_amount": 0,
+                            "description": "",
+                            "__typename": "PriceChanges"
+                        },
+                        "product_image": {
+                            "image_src_100_square": "https://ecs7.tokopedia.net/img/cache/100-square/attachment/2021/1/21/65580410/65580410_e8375afd-420c-45c1-a5b7-edc85c99bcbc.jpg",
+                            "__typename": "CartProductImage"
+                        },
+                        "product_notes": "",
+                        "product_quantity": 1,
+                        "product_weight_unit_code": 1,
+                        "product_weight_unit_text": "gr",
+                        "last_update_price": "1606822315",
+                        "is_update_price": false,
+                        "product_preorder": {
+                            "duration_day": "0",
+                            "duration_text": "",
+                            "duration_unit_code": "0",
+                            "duration_unit_text": "",
+                            "duration_value": "0",
+                            "__typename": "CartProductPreorder"
+                        },
+                        "campaign_id": 0,
+                        "product_original_price": 0,
+                        "product_price_original_fmt": "",
+                        "is_slash_price": false,
+                        "product_finsurance": 0,
+                        "is_wishlisted": false,
+                        "is_ppp": false,
+                        "is_cod": false,
+                        "warehouse_id": 465140,
+                        "is_parent": false,
+                        "is_campaign_error": false,
+                        "is_blacklisted": false,
+                        "free_shipping": {
+                            "eligible": false,
+                            "badge_url": "",
+                            "__typename": "FreeShippingArmy"
+                        },
+                        "booking_stock": 0,
+                        "product_variant": {
+                            "parent_id": 0,
+                            "default_child": 0,
+                            "variant": [],
+                            "__typename": "CartProductVariant"
+                        },
+                        "is_product_volume_weight": false,
+                        "initial_price": 0,
+                        "initial_price_fmt": "Rp0",
+                        "slash_price_label": "",
+                        "product_warning_message": "",
+                        "product_alert_message": "",
+                        "variant_description_detail": {
+                            "variant_name": [],
+                            "variant_description": "",
+                            "__typename": "VariantDescriptionDetailData"
+                        },
+                        "__typename": "CartProduct"
+                    },
+                    "errors": [],
+                    "messages": [],
+                    "checkbox_state": false,
+                    "__typename": "CartDetailsType"
+                }
+            ],
+            "errors": [],
+            "sort_key": 2207009613,
+            "is_fulfillment_service": false,
+            "warehouse": {
+                "warehouse_id": 465140,
+                "shop_id": 867657,
+                "warehouse_name": "Shop Location",
+                "is_fulfillment": false,
+                "__typename": "WarehouseType"
+            },
+            "checkbox_state": false,
+            "__typename": "CartRevampGroup"
+        }
+    ]
+}
