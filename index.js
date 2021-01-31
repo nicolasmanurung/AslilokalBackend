@@ -57,6 +57,7 @@ sellerRoutes(app);
 buyerRoutes(app);
 
 app.get('/', (req, res) => {
+  return res.status(200).send("Halooo");
 });
 
 app.listen(process.env.PORT || 3000, () => {

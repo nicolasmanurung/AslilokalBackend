@@ -11,7 +11,14 @@ import { DebtorSchema } from '../models/DebtorModel';
 import { VoucherSchema } from '../models/VoucherModel';
 import { NotificationSchema } from '../models/NotificationModel';
 import { OrderSchema } from '../models/OrderModel';
-
+import {
+    // UPLOAD
+    uploadUsrImg,
+    uploadProductImg,
+    // UPDATE
+    updateSellerImg,
+    updateProductImg
+} from '../configs/upload';
 
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
@@ -30,7 +37,27 @@ const Voucher = mongoose.model('Voucher', VoucherSchema);
 const Notification = mongoose.model('Notification', NotificationSchema);
 const Order = mongoose.model('Order', OrderSchema);
 
+// UPLOAD
+const uploadImgProduct = uploadProductImg.single('imgProduct');
+const uploadKtpBiodata = uploadUsrImg.single('ktpImgSeller');
+const uploadShop = uploadUsrImg.single('imgShop');
+const uploadSellerMultiple = uploadUsrImg.fields([
+    {
+        name: 'imgSelfSeller', maxCount: 1
+    },
+    {
+        name: 'ktpImgSeller', maxCount: 1
+    }
+]);
 
+// UPDATE
+const imgSelfSellerUpdate = updateSellerImg.single('imgSelfSellerUpdate')
+const imgShopImgUpdate = updateSellerImg.single('imgShopImgUpdate');
+const imgKtpSellerUpdate = updateSellerImg.single('imgKtpSellerUpdate');
+const imgProductSellerUpdate = updateProductImg.single('imgProductSellerUpdate');
+
+
+// Middleware
 export const loginRequiredSeller = async (req, res, next) => {
     if (req.user) {
         next();
@@ -269,8 +296,10 @@ export const getTokenCodeSeller = async (req, res) => {
 // Belum di Test
 export const postSellerBiodata = async (req, res) => {
     try {
-        const oneSellerBiodata = new SellerBiodata(req.body);
-        await oneSellerBiodata.save()
+        // const oneSellerBiodata = new SellerBiodata(req.body);
+        // oneSellerBiodata.imgSelfSeller = req.files.imgSelfSeller.key;
+        // oneSellerBiodata.ktpImgSeller = req.files.ktpImgSeller.key;
+        // await oneSellerBiodata.save()
         return res.status(200).json({
             success: true,
             message: 'Berhasil menambahkan'
@@ -310,7 +339,6 @@ export const putSellerBiodata = async (req, res) => {
         let oneSellerBiodata = await SellerBiodata.findOneAndUpdate({
             idSellerAccount: req.params.idSellerAccount
         });
-
         if (oneSellerBiodata) {
             oneSellerBiodata = new SellerBiodata(req.body);
             await oneSellerBiodata.save();
@@ -338,17 +366,28 @@ export const putSellerBiodata = async (req, res) => {
 // Belum di Test
 export const postShopBiodata = async (req, res) => {
     try {
-        const oneShopBio = new SellerShop(req.body);
-        await oneShopBio.save();
-        return res.status(200).json({
-            success: true,
-            message: 'Berhasil menambahkan'
+        uploadShop(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                let oneShopBio = new SellerShop(req.body);
+                oneShopBio.imgShop = req.file.key;
+                oneShopBio.save();
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil menambahkan'
+                });
+            }
         });
     } catch (error) {
         console.log(error);
         return res.status(401).json({
             success: false,
-            message: 'Maaf ada gangguan server!'
+            message: 'Gagal mengupdate gambar!'
         });
     }
 }
@@ -405,11 +444,22 @@ export const putShopBiodata = async (req, res) => {
 // Belum di Test
 export const postOneProduct = async (req, res) => {
     try {
-        const oneProduct = new Product(req.body);
-        await oneProduct.save();
-        return res.status(200).json({
-            success: true,
-            message: 'Berhasil menambahkan'
+        uploadImgProduct(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                const oneProduct = new Product(req.body);
+                oneProduct.imgProduct = req.file.key
+                oneProduct.save();
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil menambahkan'
+                });
+            }
         });
     } catch (error) {
         console.log(error);
@@ -781,6 +831,7 @@ export const putAcceptCancelOrder = async (req, res) => {
     }
 }
 
+// Belum di Test
 export const getOneVoucher = async (req, res) => {
     try {
         const oneVoucher = await Voucher.findById(req.params.idVoucher);
@@ -794,6 +845,287 @@ export const getOneVoucher = async (req, res) => {
         return res.status(401).json({
             success: false,
             message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+// Belum di Test [Middleware]
+export const uploadOneProductImg = async (req, res, next) => {
+    try {
+        uploadImgProduct(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupload gambar!'
+        });
+    }
+}
+
+// Belum di Test [Middleware]
+export const uploadOneKtpImg = async (req, res, next) => {
+    try {
+        const passingData = new SellerBiodata(req.body);
+        uploadKtpBiodata(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                passingData.ktpImgSeller = req.file.name;
+                console.log("req.file.location [KTP] ->" + req.file.name)
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupload gambar!'
+        });
+    }
+}
+
+// Belum di Test [Middleware]
+export const uploadOneShopImg = async (req, res, next) => {
+    try {
+        uploadShop(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupload gambar!'
+        });
+    }
+}
+
+// Belum di Test [Middleware]
+export const uploadOneSelfImg = async (req, res, next) => {
+    try {
+        const passingData = new SellerBiodata(req.body);
+        uploadSelf(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                passingData.imgSelfSeller = req.file.name;
+                console.log("req.file.location [KTP] ->" + req.file.name)
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupload gambar!'
+        });
+    }
+}
+
+export const updateSelfImage = async (req, res, next) => {
+    try {
+        imgSelfSellerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const updateSellerSelfImage = async (req, res) => {
+    try {
+        imgSelfSellerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const updateShopImage = async (req, res) => {
+    try {
+        imgShopImgUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const updateKtpImage = async (req, res) => {
+    try {
+        imgKtpSellerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const updateProductImage = async (req, res) => {
+    try {
+        imgProductSellerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+
+// Belum di Test [Middleware]
+export const uploadMultipleImg = async (req, res) => {
+    try {
+        uploadSellerMultiple(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                let oneSellerBiodata = new SellerBiodata(req.body);
+                oneSellerBiodata.imgSelfSeller = req.files['imgSelfSeller'][0].key;
+                oneSellerBiodata.ktpImgSeller = req.files['ktpImgSeller'][0].key;
+                oneSellerBiodata.save()
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil menambahkan'
+                });
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+// TESTING AWS
+// Belum di Test [Middleware]
+export const updateOneImage = async (req, res, next) => {
+    try {
+        imgSelfSellerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                //console.log("imgKey ->" + req.body.imgKey);
+                console.log(req.file);
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+                //next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
         });
     }
 }

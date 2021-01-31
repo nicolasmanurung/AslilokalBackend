@@ -26,10 +26,40 @@ import {
     getOneOrderSeller,
     putStatusOrder,
     putAcceptCancelOrder,
-    getOneVoucher
+    getOneVoucher,
+    uploadOneProductImg,
+    uploadMultipleImg,
+    // UPDATE
+    updateOneImage,
+    updateSellerSelfImage,
+    updateShopImage,
+    updateKtpImage,
+    updateProductImage
 } from '../controllers/SellerControllers';
 
 const routes = async (app) => {
+    // Testing
+    app.route('/testing/multiple')
+        .post(uploadMultipleImg)
+
+    // Testing Update
+    app.route('/testing/update')
+        .put(updateOneImage)
+
+
+    // Update Image
+    app.route('/seller/update/imgProductSellerUpdate')
+        .put(loginRequiredSeller, updateProductImage)
+
+    app.route('/seller/update/imgKtpSellerUpdate')
+        .put(loginRequiredSeller, updateKtpImage)
+
+    app.route('/seller/update/imgShopImgUpdate')
+        .put(loginRequiredSeller, updateShopImage)
+
+    app.route('/seller/update/imgSelfSellerUpdate')
+        .put(loginRequiredSeller, updateSellerSelfImage)
+
     //Auth
     app.route('/seller/login')
         .post(sellerLoginAccount)
@@ -42,14 +72,17 @@ const routes = async (app) => {
         .post(loginRequiredSeller, postResubmitTokenSeller)
 
     app.route('/seller/account')
-        .post(loginRequiredSeller, postSellerBiodata)
+        .post(loginRequiredSeller, uploadMultipleImg)
+    // ktpImgSeller, imgSelfSeller - postSellerBiodata 
 
     app.route('/seller/account/detail/:idSellerAccount')
         .get(loginRequiredSeller, getSellerBiodata)
         .put(loginRequiredSeller, putSellerBiodata)
+    //
 
     app.route('/seller/shop')
         .post(loginRequiredSeller, postShopBiodata)
+    // imgShop - postShopBiodata
 
     app.route('/seller/shop/detail/:idSellerAccount')
         .get(loginRequiredSeller, getShopBiodata)
@@ -58,7 +91,9 @@ const routes = async (app) => {
     // Product
     app.route('/seller/product')
         .post(loginRequiredSeller, postOneProduct)
+        // imgProduct - postOneProduct
         .get(loginRequiredSeller, getProductBySeller)
+
 
     app.route('/seller/products/:idSellerAccount')
         .get(loginRequiredSeller, getSearchProductBySeller)

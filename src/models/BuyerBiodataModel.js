@@ -24,11 +24,9 @@ export const BuyerBiodataSchema = new Schema({
     //     type: Unknown
     // }
     imgKtpBuyer: {
-        type: String,
-        required: true
+        type: String
     },
     imgSelfBuyer: {
-        type: String,
-        required: true
+        type: String
     }
 })

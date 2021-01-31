@@ -34,10 +34,20 @@ import {
     postOneReviewBuyer,
     getAllReviewBuyer,
     getOneReviewBuyer,
-    getAllReviewFromShop
+    getAllReviewFromShop,
+    updateImgSelfBuyer
 } from '../controllers/BuyerControlles';
 
 const routes = async (app) => {
+
+    // Image Testing
+    // app.route('/testing/image')
+    //     .post(uploadSingleImg, postTesting);
+
+    // Update
+    app.route('/buyer/update/imgSelfBuyerUpdate')
+        .put(loginRequiredBuyer, updateImgSelfBuyer)
+
     // Auth
     app.route('/buyer/login')
         .post(buyerLoginAccount)
@@ -52,6 +62,7 @@ const routes = async (app) => {
     // Account
     app.route('/buyer/account')
         .post(loginRequiredBuyer, postBuyerBiodata)
+    //imgSelfBuyer - uploadSelfImgBuyer
 
     app.route('/buyer/acount/detail/:idBuyerAccount')
         .get(loginRequiredBuyer, getBuyerBiodata)

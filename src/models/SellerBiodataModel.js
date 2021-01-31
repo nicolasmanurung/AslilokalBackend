@@ -27,12 +27,10 @@ export const SellerBiodataSchema = new Schema({
         required: true
     },
     ktpImgSeller: {
-        type: String,
-        required: true
+        type: String
     },
-    selfImgSeller: {
-        type: String,
-        required: true
+    imgSelfSeller: {
+        type: String
     },
     paymentInfo: {
         ovoNumber: {

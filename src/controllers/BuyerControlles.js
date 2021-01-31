@@ -13,6 +13,10 @@ import { VoucherSchema } from '../models/VoucherModel';
 import { CartBuyerSchema } from '../models/CartBuyerModel';
 import { OrderSchema } from '../models/OrderModel';
 import { ReviewSchema } from '../models/ReviewModel';
+import { TestingSchema } from '../models/TestingModel';
+import {
+    uploadUsrImg
+} from '../configs/upload';
 
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
@@ -32,6 +36,12 @@ const Voucher = mongoose.model('Voucher', VoucherSchema);
 const CartBuyer = mongoose.model('CartBuyer', CartBuyerSchema);
 const Order = mongoose.model('Order', OrderSchema);
 const Review = mongoose.model('Review', ReviewSchema);
+const Testing = mongoose.model('Testing', TestingSchema);
+
+// UPLOAD
+const uploadImgSelfBuyer = uploadUsrImg.single('imgSelfBuyer');
+// UPDATE
+const imgSelfBuyerUpdate = uploadUsrImg.single('imgSelfBuyerUpdate');
 
 export const loginRequiredBuyer = async (req, res, next) => {
     if (req.user) {
@@ -269,12 +279,23 @@ export const getTokenCodeBuyer = async (req, res) => {
 // Belum di Test
 export const postBuyerBiodata = async (req, res) => {
     try {
-        const oneBuyerBiodata = new BuyerBiodata(req.body);
-        await oneBuyerBiodata.save();
-        return res.status(200).json({
-            success: true,
-            message: 'Berhasil menambahkan'
-        });
+        uploadImgSelfBuyer(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                let oneBuyerBiodata = new BuyerBiodata(req.body);
+                oneBuyerBiodata.imgSelfBuyer = req.file.location;
+                oneBuyerBiodata.save();
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil menambahkan'
+                });
+            }
+        })
     } catch (error) {
         console.log(error);
         return res.status(401).json({
@@ -1004,3 +1025,69 @@ export const getAllReviewFromShop = async (req, res) => {
         });
     }
 }
+
+// Testing
+export const postTesting = async (req, res) => {
+    try {
+        const oneTesting = new Testing(req.body);
+        oneTesting.imgUrl = req.file.location;
+        await oneTesting.save();
+        // console.log(req.body.name);
+        // console.log(req.file.location);
+        return res.status(200).json({
+            success: true,
+            message: 'Success!',
+            result: oneTesting
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const updateImgSelfBuyer = async (req, res, next) => {
+    try {
+        imgSelfBuyerUpdate(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+// Sudah di Test [Middleware] - sample
+// export const uploadSingleImg = async (req, res, next) => {
+//     try {
+//         uploadSample(req, res, err => {
+//             if (err) {
+//                 console.log(err);
+//                 return res.status(401).json({
+//                     success: false,
+//                     message: 'Image upload error!'
+//                 });
+//             } else {
+//                 next();
+//             }
+//         })
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(401).json({
+//             success: false,
+//             message: 'Gagal mengupload gambar!'
+//         });
+//     }
+// }
