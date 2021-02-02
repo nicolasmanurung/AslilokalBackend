@@ -4,22 +4,22 @@ const Schema = mongoose.Schema;
 
 export const OrderSchema = new Schema({
     idBuyerAccount: {
-        type: String,
-        required: true
+        type: String
     },
     idSellerAccount: {
-        type: String,
-        required: true
+        type: String
     },
     addressBuyer: {
-        type: String,
-        required: true
+        type: String
     },
     products: [{
-        imgProduct: {
-
-        },
         idProduct: {
+            type: String
+        },
+        imgProduct: {
+            type: String
+        },
+        nameProduct: {
             type: String
         },
         priceAt: {
@@ -27,6 +27,9 @@ export const OrderSchema = new Schema({
         },
         qty: {
             type: Number
+        },
+        noteProduct: {
+            type: String
         }
     }],
     courierType: {
@@ -52,10 +55,12 @@ export const OrderSchema = new Schema({
         type: String
     },
     isCancelBuyer: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     isCancelSeller: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     isFinish: {
         type: Boolean,

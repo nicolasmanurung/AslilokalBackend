@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 export const BuyerBiodataSchema = new Schema({
     idBuyerAccount: {
-        type: String,
-        required: true
+        type: String
     },
     nameBuyer: {
         type: String,

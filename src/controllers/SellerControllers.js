@@ -23,7 +23,7 @@ import {
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
 const mg = mailgun({
-    apiKey: "76d09f6b0646ad23850b363dcebdb7ad-e5da0167-d59bdd1e",
+    apiKey: "key-cb0c873e189ae11c0fd69b368afcc5ce",
     domain: DOMAIN
 });
 
@@ -41,12 +41,13 @@ const Order = mongoose.model('Order', OrderSchema);
 const uploadImgProduct = uploadProductImg.single('imgProduct');
 const uploadKtpBiodata = uploadUsrImg.single('ktpImgSeller');
 const uploadShop = uploadUsrImg.single('imgShop');
-const uploadSellerMultiple = uploadUsrImg.fields([
-    {
-        name: 'imgSelfSeller', maxCount: 1
+const uploadSellerMultiple = uploadUsrImg.fields([{
+        name: 'imgSelfSeller',
+        maxCount: 1
     },
     {
-        name: 'ktpImgSeller', maxCount: 1
+        name: 'ktpImgSeller',
+        maxCount: 1
     }
 ]);
 
@@ -58,7 +59,7 @@ const imgProductSellerUpdate = updateProductImg.single('imgProductSellerUpdate')
 
 
 // Middleware
-export const loginRequiredSeller = async (req, res, next) => {
+export const loginRequiredSeller = async(req, res, next) => {
     if (req.user) {
         next();
     } else {
@@ -66,9 +67,28 @@ export const loginRequiredSeller = async (req, res, next) => {
     }
 };
 
-// Belum di Test
-export const sellerRegisterAccount = async (req, res) => {
+// Done
+export const sellerRegisterAccount = async(req, res) => {
     try {
+        var tokenVerify = Math.random().toString(16).substring(9);
+        const oneToken = await TokenAccount.findOne({
+            emailAccount: req.body.emailSeller
+        });
+        const emailAccount = req.body.emailSeller;
+
+        //console.log("oneToken->" + oneToken);
+        if (!oneToken) {
+            const token = new TokenAccount({
+                emailAccount,
+                tokenVerify
+            });
+
+            await token.save();
+            //console.log("token ->" + token);
+        } else {
+            tokenVerify = oneToken.tokenVerify;
+        }
+
         const newSeller = new SellerAccount(req.body);
         var salt = crypto.randomBytes(16).toString('hex');
         var hash = crypto.createHmac("sha256", salt)
@@ -87,74 +107,57 @@ export const sellerRegisterAccount = async (req, res) => {
             });
         } else if (!findSellerAccount) {
             try {
-                // Disini setting email konfirmasi [Belum di testing]
                 const data = {
                     from: 'Kodelapo Account <no-reply@kodelapo.com>',
-                    to: req.body.emailSeller,
+                    to: newSeller.emailSeller,
                     subject: 'Email verifikasi',
-                    html: `<body class="em_body" style="margin:0px auto; padding:0px;" bgcolor="#efefef">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="em_full_wrap" align="center" bgcolor="#efefef">
-                            <tr>
-                                <td align="center" valign="top"><table align="center" width="650" border="0" cellspacing="0" cellpadding="0" class="em_main_table" style="width:650px; table-layout:fixed;">
-                                    <tr>
-                                        <td align="center" valign="top" style="padding:0 25px;" class="em_aside10"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-                                            <tr>
-                                                <td height="26" style="height:26px;" class="em_h20">&nbsp;</td>
-                                            </tr>
-                                            <tr><td align="center" valign="top"><a href="#" target="_blank" style="text-decoration:none;"><img src="https://drive.google.com/uc?id=1Q6Uo4eLetR1gIKzQvokgZo5GgT3JVSFM" width="208" height="41" alt="kodelapo" border="0" style="display:block; font-family:Arial, sans-serif; font-size:18px; line-height:25px; text-align:center; color:#1d4685; font-weight:bold; max-width:208px;" class="em_w150" /></a></td></tr>
-                                            <tr>
-                                                <td height="28" style="height:28px;" class="em_h20">&nbsp;</td>
-                                            </tr>
-                                        </table>
-                                        </td>
-                                    </tr>
-                                </table>
-                                </td>
-                            </tr>
-                        </table>
-                        <table class="body-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: #f6f6f6; margin: 0;" bgcolor="#f6f6f6"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top"></td>
-                            <td class="container" width="600" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top">
-                                <div class="content" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: block; margin: 0 auto; padding: 20px;">
-                                    <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 3px; background-color: #fff; margin: 0; border: 1px solid #e9e9e9;" bgcolor="#1d4685"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;" valign="top">
-                                        <meta itemprop="name" content="Confirm Email" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" /><table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            Ini adalah pesan konfirmasi. Jangan pernah sebarkan token dibawah ini ke siapapun.
-                                                          </td>
-                                        </tr><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                            Apabila kamu memiliki kendala, harap hubungi admin kodelapo.
-                                                          </td>
-                                            </tr><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                            </tr><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box;font-size: 14px; margin: 0;">
-                                            <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                                                &mdash; Tim Akun Kodelapo
-                                            </td>
-                                            </tr></table></td>
-                                    </tr></table><div class="footer" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">
-                                        <table width="100%" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="aligncenter content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">Follow <a href="http://instagram.com/kodelapo" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; text-decoration: underline; margin: 0;">@kodelapo</a> on Instagram.</td>
-                                        </tr></table></div></div>
+                    html: `<table dir="ltr">
+                    <tbody>
+                        <tr>
+                            <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                                Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + newSeller.emailSeller + `" target="_blank">` + newSeller.emailSeller + `</a>.
                             </td>
-                            <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top"></td>
-                        </tr></table></body>`
+                        </tr>
+                        <tr>
+                            <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                                Kode keamanan: <span style="font-family:'Segoe UI Bold','Segoe UI Semibold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:14px;font-weight:bold;color:#2a2a2a">` + tokenVerify + `</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                        </tr>
+                    </tbody>
+                </table>`
                 };
 
-                mg.messages().send(data, async (error, body) => {
+                mg.messages().send(data, async(error, body) => {
                     if (error) {
                         console.log(error);
                         return res.status(200).json({
                             success: false,
-                            message: 'Maaf ada gangguan service! Silahkan daftar ulang!'
+                            message: 'Maaf ada gangguan email service! Silahkan daftar ulang!'
                         });
                     } else {
                         try {
-                            console.log(body);
                             await newSeller.save();
                             return res.status(200).json({
                                 success: true,
                                 message: 'Akun berhasil dibuat'
                             });
                         } catch (error) {
+                            console.log(error)
                             return res.status(200).json({
                                 success: false,
-                                message: 'Maaf ada gangguan service! Silahkan daftar ulang!'
+                                message: 'Maaf ada gangguan database service! Silahkan daftar ulang!'
                             });
                         }
                     }
@@ -176,8 +179,8 @@ export const sellerRegisterAccount = async (req, res) => {
     }
 }
 
-// Belum di Test
-export const sellerLoginAccount = async (req, res) => {
+// Done
+export const sellerLoginAccount = async(req, res) => {
     try {
         const findSellerAccount = await SellerAccount.findOne({
             emailSeller: req.body.emailSeller
@@ -218,28 +221,114 @@ export const sellerLoginAccount = async (req, res) => {
     }
 }
 
-// Belum di Test
-export const postResubmitTokenSeller = async (req, res) => {
+// Done
+export const postResubmitTokenSeller = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
             emailAccount: req.body.emailSeller
         });
+
+        const emailAccount = req.body.emailSeller
+        let tokenVerify = Math.random().toString(16).substring(9);
         if (!oneToken) {
-            let randomToken = Math.random().toString(16).substring(9);
-            const token = new TokenAccount(
-                req.body.idSellerAccount,
-                req.body.emailSeller,
-                randomToken
-            )
+            const token = new TokenAccount({
+                emailAccount,
+                tokenVerify
+            })
             await token.save();
+            const data = {
+                from: 'Kodelapo Account <no-reply@kodelapo.com>',
+                to: emailAccount,
+                subject: 'Email verifikasi',
+                html: `<table dir="ltr">
+                <tbody>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                            Kode keamanan: <span style="font-family:'Segoe UI Bold','Segoe UI Semibold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:14px;font-weight:bold;color:#2a2a2a">` + tokenVerify + `</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                    </tr>
+                </tbody>
+            </table>`
+            };
+
+            mg.messages().send(data, async(error, body) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(200).json({
+                        success: false,
+                        message: 'Maaf ada gangguan email service! Silahkan daftar ulang!'
+                    });
+                }
+            });
+
             return res.status(200).json({
                 success: true,
                 message: 'Token berhasil di kirim'
             });
         } else {
-            return res.status(200).json({
-                success: false,
-                message: 'Token sudah dikirim sebelumnya...'
+            tokenVerify = oneToken.tokenVerify;
+            const data = {
+                from: 'Kodelapo Account <no-reply@kodelapo.com>',
+                to: emailAccount,
+                subject: 'Email verifikasi',
+                html: `<table dir="ltr">
+                <tbody>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + req.body.emailSeller + `" target="_blank">` + req.body.emailSeller + `</a>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
+                            Kode keamanan: <span style="font-family:'Segoe UI Bold','Segoe UI Semibold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:14px;font-weight:bold;color:#2a2a2a">` + tokenVerify + `</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                    </tr>
+                </tbody>
+            </table>`
+            };
+
+            mg.messages().send(data, async(error, body) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(200).json({
+                        success: false,
+                        message: 'Maaf ada gangguan email service! Silahkan daftar ulang!'
+                    });
+                } else {
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Token berhasil di kirim'
+                    });
+                }
             });
         }
     } catch (error) {
@@ -251,8 +340,8 @@ export const postResubmitTokenSeller = async (req, res) => {
     }
 }
 
-// Belum di Test
-export const getTokenCodeSeller = async (req, res) => {
+// Done
+export const getTokenCodeSeller = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
             emailAccount: req.body.emailSeller
@@ -266,6 +355,7 @@ export const getTokenCodeSeller = async (req, res) => {
                         emailVerifyStatus: true
                     }
                 });
+                await oneToken.remove();
                 return res.status(200).json({
                     success: true,
                     message: 'Token terkonfirmasi'
@@ -294,7 +384,7 @@ export const getTokenCodeSeller = async (req, res) => {
 
 
 // Belum di Test
-export const postSellerBiodata = async (req, res) => {
+export const postSellerBiodata = async(req, res) => {
     try {
         // const oneSellerBiodata = new SellerBiodata(req.body);
         // oneSellerBiodata.imgSelfSeller = req.files.imgSelfSeller.key;
@@ -313,8 +403,8 @@ export const postSellerBiodata = async (req, res) => {
     }
 }
 
-// Belum di Test
-export const getSellerBiodata = async (req, res) => {
+// Done
+export const getSellerBiodata = async(req, res) => {
     try {
         const oneSellerBiodata = await SellerBiodata.findOne({
             idSellerAccount: req.params.idSellerAccount
@@ -334,26 +424,42 @@ export const getSellerBiodata = async (req, res) => {
 }
 
 // Belum di Test
-export const putSellerBiodata = async (req, res) => {
+export const putSellerBiodata = async(req, res) => {
     try {
+
+        const ovoNumber = req.body.paymentInfo.ovoNumber;
+        const danaNumber = req.body.paymentInfo.danaNumber;
+        const gopayNumber = req.body.paymentInfo.gopayNumber;
+
+        const paymentInfo = ({
+            ovoNumber: ovoNumber,
+            danaNumber: danaNumber,
+            gopayNumber: gopayNumber
+        })
+
+        const {
+            nameSellerBiodata,
+            idKtpNumber,
+            telpNumber,
+            birthDateSeller,
+            addressSeller
+        } = req.body
+
         let oneSellerBiodata = await SellerBiodata.findOneAndUpdate({
             idSellerAccount: req.params.idSellerAccount
+        }, {
+            nameSellerBiodata,
+            idKtpNumber,
+            telpNumber,
+            birthDateSeller,
+            addressSeller,
+            paymentInfo
         });
-        if (oneSellerBiodata) {
-            oneSellerBiodata = new SellerBiodata(req.body);
-            await oneSellerBiodata.save();
-            return res.status(200).json({
-                success: true,
-                message: 'Berhasil di update',
-                result: oneSellerBiodata
-            });
-        } else {
-            return res.status(401).json({
-                success: false,
-                message: 'Maaf ada gangguan server!'
-            });
-        }
-
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil di update',
+            result: oneSellerBiodata
+        });
     } catch (error) {
         console.log(error);
         return res.status(401).json({
@@ -364,7 +470,7 @@ export const putSellerBiodata = async (req, res) => {
 }
 
 // Belum di Test
-export const postShopBiodata = async (req, res) => {
+export const postShopBiodata = async(req, res) => {
     try {
         uploadShop(req, res, err => {
             if (err) {
@@ -393,7 +499,7 @@ export const postShopBiodata = async (req, res) => {
 }
 
 // Belum di Test
-export const getShopBiodata = async (req, res) => {
+export const getShopBiodata = async(req, res) => {
     try {
         const oneShopBiodata = await SellerShop.findOne({
             idSellerAccount: req.params.idSellerAccount
@@ -413,25 +519,42 @@ export const getShopBiodata = async (req, res) => {
 }
 
 // Belum di Test
-export const putShopBiodata = async (req, res) => {
+export const putShopBiodata = async(req, res) => {
     try {
+        const {
+            nameShop,
+            noTelpSeller,
+            noWhatsappShop,
+            isPickup,
+            isDelivery,
+            freeOngkirLimitKm,
+            addressShop,
+            isTwentyFourHours,
+            openTime,
+            closeTime,
+            sumFollowers
+        } = req.body
+
         let oneShopBiodata = await SellerShop.findOneAndUpdate({
             idSellerAccount: req.params.idSellerAccount
-        })
-        if (oneShopBiodata) {
-            oneShopBiodata = new SellerShop(req.body);
-            await oneShopBiodata.save();
-            return res.status(200).json({
-                success: true,
-                message: 'Berhasil mengambil',
-                result: oneShopBiodata
-            });
-        } else {
-            return res.status(200).json({
-                success: false,
-                message: 'Maaf ada gangguan server!'
-            });
-        }
+        }, {
+            nameShop,
+            noTelpSeller,
+            noWhatsappShop,
+            isPickup,
+            isDelivery,
+            freeOngkirLimitKm,
+            addressShop,
+            isTwentyFourHours,
+            openTime,
+            closeTime,
+            sumFollowers
+        });
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil',
+            result: oneShopBiodata
+        });
     } catch (error) {
         console.log(error);
         return res.status(401).json({
@@ -442,7 +565,7 @@ export const putShopBiodata = async (req, res) => {
 }
 
 // Belum di Test
-export const postOneProduct = async (req, res) => {
+export const postOneProduct = async(req, res) => {
     try {
         uploadImgProduct(req, res, err => {
             if (err) {
@@ -471,7 +594,7 @@ export const postOneProduct = async (req, res) => {
 }
 
 // Belum di Test
-export const getOneProduct = async (req, res) => {
+export const getOneProduct = async(req, res) => {
     try {
         const oneProduct = await Product.findById(req.params.idProduct);
         if (oneProduct) {
@@ -497,7 +620,7 @@ export const getOneProduct = async (req, res) => {
 }
 
 // Belum di Test
-export const getProductBySeller = async (req, res) => {
+export const getProductBySeller = async(req, res) => {
     try {
         var query = req.query.name;
         var options = {
@@ -524,7 +647,7 @@ export const getProductBySeller = async (req, res) => {
 }
 
 // Belum di Test
-export const getSearchProductBySeller = async (req, res) => {
+export const getSearchProductBySeller = async(req, res) => {
     try {
         var query = new RegExp(req.query.name, 'i');
         var options = {
@@ -552,23 +675,34 @@ export const getSearchProductBySeller = async (req, res) => {
 }
 
 // Belum di Test
-export const putOneProduct = async (req, res) => {
+export const putOneProduct = async(req, res) => {
     try {
-        let oneProduct = await Product.findOneAndUpdate(req.params.idProduct);
-        if (oneProduct) {
-            oneProduct = new Product(req.body);
-            await oneProduct.save();
-            return res.status(200).json({
-                success: true,
-                message: 'Berhasil mengambil',
-                result: oneProduct
-            });
-        } else {
-            return res.status(200).json({
-                success: false,
-                message: 'Maaf ada gangguan server!'
-            });
-        }
+        const {
+            nameProduct,
+            productCategory,
+            priceProduct,
+            productWeight,
+            priceServiceRange,
+            promoPrice,
+            descProduct,
+            isAvailable,
+        } = req.body
+
+        let oneProduct = await Product.findOneAndUpdate(req.params.idProduct, {
+            nameProduct,
+            productCategory,
+            priceProduct,
+            productWeight,
+            priceServiceRange,
+            promoPrice,
+            descProduct,
+            isAvailable,
+        });
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil',
+            result: oneProduct
+        });
     } catch (error) {
         console.log(error);
         return res.status(401).json({
@@ -579,7 +713,7 @@ export const putOneProduct = async (req, res) => {
 }
 
 // Belum di Test
-export const postOneDebtor = async (req, res) => {
+export const postOneDebtor = async(req, res) => {
     try {
         const oneDebtor = new Debtor(req.body);
         await oneDebtor.save();
@@ -597,7 +731,7 @@ export const postOneDebtor = async (req, res) => {
 }
 
 // Belum di Test
-export const getAllDebtorBySeller = async (req, res) => {
+export const getAllDebtorBySeller = async(req, res) => {
     try {
         const allDebtor = await Debtor.find({
             idSellerAccount: req.params.idSellerAccount
@@ -617,23 +751,27 @@ export const getAllDebtorBySeller = async (req, res) => {
 }
 
 // Belum di Test
-export const putOneDebtorLunas = async (req, res) => {
+export const putOneDebtorLunas = async(req, res) => {
     try {
-        let oneDebtor = await Debtor.findOneAndUpdate(req.params.idDebtor);
-        if (oneDebtor) {
-            oneDebtor = new Debtor(req.body);
-            await oneDebtor.save();
-            return res.status(200).json({
-                success: true,
-                message: 'Berhasil mengedit',
-                result: oneDebtor
-            });
-        } else {
-            return res.status(200).json({
-                success: false,
-                message: 'Maaf data tidak ditemukan!'
-            });
-        }
+        const {
+            nameDebtor,
+            totalDebt,
+            descDebt,
+            statusTransaction
+        } = req.body
+
+        let oneDebtor = await Debtor.findOneAndUpdate(req.params.idDebtor, {
+            nameDebtor,
+            totalDebt,
+            descDebt,
+            statusTransaction
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengedit',
+            result: oneDebtor
+        });
     } catch (error) {
         console.log(error);
         return res.status(401).json({
@@ -644,7 +782,7 @@ export const putOneDebtorLunas = async (req, res) => {
 }
 
 // Belum di Test
-export const postOneVoucher = async (req, res) => {
+export const postOneVoucher = async(req, res) => {
     try {
         const findOneVoucher = await Voucher.findOne({
             idSellerAccount: req.body.idSellerAccount,
@@ -673,7 +811,7 @@ export const postOneVoucher = async (req, res) => {
 }
 
 // Belum di Test
-export const getVoucherBySeller = async (req, res) => {
+export const getVoucherBySeller = async(req, res) => {
     try {
         const findAllVoucher = await Voucher.find({
             idSellerAccount: req.params.idSellerAccount
@@ -693,7 +831,7 @@ export const getVoucherBySeller = async (req, res) => {
 }
 
 // Belum di Test
-export const getNotificationBySeller = async (req, res) => {
+export const getNotificationBySeller = async(req, res) => {
     try {
         const findAllNotification = await Notification.find({
             idUser: req.params.idSellerAccount
@@ -713,11 +851,11 @@ export const getNotificationBySeller = async (req, res) => {
 }
 
 // Belum di Test
-export const getOneNotificationSeller = async (req, res) => {
+export const getOneNotificationSeller = async(req, res) => {
     try {
         const oneNotification = await Notification.findByIdAndUpdate(req.params.idNotification, {
             $set: {
-                statusNotification: "read"
+                isRead: "read"
             }
         });
         return res.status(200).json({
@@ -735,7 +873,7 @@ export const getOneNotificationSeller = async (req, res) => {
 }
 
 // Belum di Test
-export const getAllOrderSeller = async (req, res) => {
+export const getAllOrderSeller = async(req, res) => {
     try {
         const allOrder = await Order.find({
             idSellerAccount: req.params.idSellerAccount,
@@ -756,7 +894,7 @@ export const getAllOrderSeller = async (req, res) => {
 }
 
 // Belum di Test
-export const getOneOrderSeller = async (req, res) => {
+export const getOneOrderSeller = async(req, res) => {
     try {
         const oneOrder = await Order.findById(req.params.idOrder);
         return res.status(200).json({
@@ -775,7 +913,7 @@ export const getOneOrderSeller = async (req, res) => {
 
 // Belum di Test
 // Belum Bayar, Dibayar, DiProses, Menunggu, Selesai
-export const putStatusOrder = async (req, res) => {
+export const putStatusOrder = async(req, res) => {
     try {
         await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
@@ -783,12 +921,12 @@ export const putStatusOrder = async (req, res) => {
             }
         });
 
-        const oneNotification = new Notification(
-            req.body.idBuyerAccount,
-            req.body.statusOrder,
-            "unread",
-            "Lihat status pesanan mu telah berubah!"
-        )
+        const oneNotification = new Notification({
+            idUser: req.body.idBuyerAccount,
+            statusNotification: req.body.statusOrder,
+            isRead: "unread",
+            descNotification: "Lihat status pesanan mu telah berubah!"
+        })
 
         await oneNotification.save();
         return res.status(200).json({
@@ -805,19 +943,21 @@ export const putStatusOrder = async (req, res) => {
 }
 
 // Belum di Test
-export const putAcceptCancelOrder = async (req, res) => {
+export const putAcceptCancelOrder = async(req, res) => {
     try {
         await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
                 isCancelSeller: true
             }
         });
-        const oneNotification = new Notification(
-            req.body.idBuyerAccount,
-            req.body.statusOrder,
-            "unread",
-            "Pesanan kamu berhasil di batalkan"
-        );
+        const oneNotification = new Notification({
+            idUser: req.body.idBuyerAccount,
+            statusNotification: req.body.statusOrder,
+            isRead: "unread",
+            descNotification: "Pesanan kamu berhasil di batalkan"
+        });
+
+        await oneNotification.save();
         return res.status(200).json({
             success: true,
             message: 'Berhasil'
@@ -832,7 +972,7 @@ export const putAcceptCancelOrder = async (req, res) => {
 }
 
 // Belum di Test
-export const getOneVoucher = async (req, res) => {
+export const getOneVoucher = async(req, res) => {
     try {
         const oneVoucher = await Voucher.findById(req.params.idVoucher);
         return res.status(200).json({
@@ -850,7 +990,7 @@ export const getOneVoucher = async (req, res) => {
 }
 
 // Belum di Test [Middleware]
-export const uploadOneProductImg = async (req, res, next) => {
+export const uploadOneProductImg = async(req, res, next) => {
     try {
         uploadImgProduct(req, res, err => {
             if (err) {
@@ -873,7 +1013,7 @@ export const uploadOneProductImg = async (req, res, next) => {
 }
 
 // Belum di Test [Middleware]
-export const uploadOneKtpImg = async (req, res, next) => {
+export const uploadOneKtpImg = async(req, res, next) => {
     try {
         const passingData = new SellerBiodata(req.body);
         uploadKtpBiodata(req, res, err => {
@@ -899,7 +1039,7 @@ export const uploadOneKtpImg = async (req, res, next) => {
 }
 
 // Belum di Test [Middleware]
-export const uploadOneShopImg = async (req, res, next) => {
+export const uploadOneShopImg = async(req, res, next) => {
     try {
         uploadShop(req, res, err => {
             if (err) {
@@ -922,7 +1062,7 @@ export const uploadOneShopImg = async (req, res, next) => {
 }
 
 // Belum di Test [Middleware]
-export const uploadOneSelfImg = async (req, res, next) => {
+export const uploadOneSelfImg = async(req, res, next) => {
     try {
         const passingData = new SellerBiodata(req.body);
         uploadSelf(req, res, err => {
@@ -947,7 +1087,7 @@ export const uploadOneSelfImg = async (req, res, next) => {
     }
 }
 
-export const updateSelfImage = async (req, res, next) => {
+export const updateSelfImage = async(req, res, next) => {
     try {
         imgSelfSellerUpdate(req, res, err => {
             if (err) {
@@ -969,7 +1109,7 @@ export const updateSelfImage = async (req, res, next) => {
     }
 }
 
-export const updateSellerSelfImage = async (req, res) => {
+export const updateSellerSelfImage = async(req, res) => {
     try {
         imgSelfSellerUpdate(req, res, err => {
             if (err) {
@@ -994,7 +1134,7 @@ export const updateSellerSelfImage = async (req, res) => {
     }
 }
 
-export const updateShopImage = async (req, res) => {
+export const updateShopImage = async(req, res) => {
     try {
         imgShopImgUpdate(req, res, err => {
             if (err) {
@@ -1019,7 +1159,7 @@ export const updateShopImage = async (req, res) => {
     }
 }
 
-export const updateKtpImage = async (req, res) => {
+export const updateKtpImage = async(req, res) => {
     try {
         imgKtpSellerUpdate(req, res, err => {
             if (err) {
@@ -1044,7 +1184,7 @@ export const updateKtpImage = async (req, res) => {
     }
 }
 
-export const updateProductImage = async (req, res) => {
+export const updateProductImage = async(req, res) => {
     try {
         imgProductSellerUpdate(req, res, err => {
             if (err) {
@@ -1070,8 +1210,8 @@ export const updateProductImage = async (req, res) => {
 }
 
 
-// Belum di Test [Middleware]
-export const uploadMultipleImg = async (req, res) => {
+// Done
+export const uploadMultipleImg = async(req, res) => {
     try {
         uploadSellerMultiple(req, res, err => {
             if (err) {
@@ -1102,7 +1242,7 @@ export const uploadMultipleImg = async (req, res) => {
 
 // TESTING AWS
 // Belum di Test [Middleware]
-export const updateOneImage = async (req, res, next) => {
+export const updateOneImage = async(req, res, next) => {
     try {
         imgSelfSellerUpdate(req, res, err => {
             if (err) {

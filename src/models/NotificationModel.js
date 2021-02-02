@@ -4,21 +4,18 @@ const Schema = mongoose.Schema;
 
 export const NotificationSchema = new Schema({
     idUser: {
-        type: String,
-        required: true
+        type: String
     },
     // Cancel, order, review, etc
     statusNotification: {
-        type: String,
-        required: true
+        type: String
     },
-    isRead:{
+    isRead: {
         // unread, read, etc
         type: String
     },
     descNotification: {
-        type: String,
-        required: true
+        type: String
     },
     createdAt: {
         type: Date,

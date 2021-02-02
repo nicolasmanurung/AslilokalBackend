@@ -34,10 +34,10 @@ export const uploadUsrImg = multer({
         bucket: 'kodelapo-usr-img',
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        metadata: function (req, file, cb) {
+        metadata: function(req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
-        key: function (req, file, cb) {
+        key: function(req, file, cb) {
             let salt = crypto.randomBytes(16).toString('hex');
             cb(null, `${Date.now().toString()}-${salt}`);
         }
@@ -53,10 +53,10 @@ export const uploadProductImg = multer({
         bucket: 'kodelapo-product-img',
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        metadata: function (req, file, cb) {
+        metadata: function(req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
-        key: function (req, file, cb) {
+        key: function(req, file, cb) {
             let salt = crypto.randomBytes(16).toString('hex');
             cb(null, `${Date.now().toString()}-${salt}`);
         }
@@ -72,10 +72,10 @@ export const updateSellerImg = multer({
         bucket: 'kodelapo-usr-img',
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        metadata: function (req, file, cb) {
+        metadata: function(req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
-        key: function (req, file, cb) {
+        key: function(req, file, cb) {
             cb(null, `${req.body.imgKey}`);
         }
     })
@@ -89,10 +89,10 @@ export const updateProductImg = multer({
         bucket: 'kodelapo-product-img',
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        metadata: function (req, file, cb) {
+        metadata: function(req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },
-        key: function (req, file, cb) {
+        key: function(req, file, cb) {
             cb(null, `${req.body.imgKey}`);
         }
     })

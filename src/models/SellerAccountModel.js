@@ -29,4 +29,4 @@ export const SellerAccountSchema = new Schema({
         type: Date,
         default: Date.now
     }
-})
+});

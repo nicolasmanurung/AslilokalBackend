@@ -38,70 +38,91 @@ import {
     updateImgSelfBuyer
 } from '../controllers/BuyerControlles';
 
-const routes = async (app) => {
+const routes = async(app) => {
 
     // Image Testing
     // app.route('/testing/image')
     //     .post(uploadSingleImg, postTesting);
 
     // Update
-    app.route('/buyer/update/imgSelfBuyerUpdate')
+    // [Done]
+    app.route('/buyer/update/imgself')
         .put(loginRequiredBuyer, updateImgSelfBuyer)
 
     // Auth
+
+    // [Done]
     app.route('/buyer/login')
         .post(buyerLoginAccount)
 
+    // [Done]
     app.route('/buyer/register')
         .post(buyerRegisterAccount)
 
+
+    // [Done]
     app.route('/buyer/verify')
         .post(loginRequiredBuyer, postResubmitTokenBuyer)
         .get(loginRequiredBuyer, getTokenCodeBuyer)
 
     // Account
+
+    // [Done]
     app.route('/buyer/account')
         .post(loginRequiredBuyer, postBuyerBiodata)
-    //imgSelfBuyer - uploadSelfImgBuyer
+        //imgSelfBuyer - uploadSelfImgBuyer
 
-    app.route('/buyer/acount/detail/:idBuyerAccount')
+    // [Done]
+    app.route('/buyer/account/detail/:idBuyerAccount')
         .get(loginRequiredBuyer, getBuyerBiodata)
         .put(loginRequiredBuyer, putBuyerBiodata)
 
     // Follow
+    // [Done]
     app.route('/buyer/follow')
         .post(loginRequiredBuyer, postFollowShop)
 
+    // [Done]
     app.route('/buyer/unfollow')
         .post(loginRequiredBuyer, unFollowShop)
 
+    // [Done]
     app.route('/buyer/shop/isfollow')
         .get(loginRequiredBuyer, getShopIsFollowing)
 
     // Product
+    // [Done]
     app.route('/buyer/product/detail/:idProduct')
         .get(getOneProductBuyer)
 
+    // [Done]
     app.route('/buyer/products')
         .get(getProductByBuyer)
 
+    // [Done]
     app.route('/buyer/products/search')
         .get(getSearchProductByBuyer)
 
     // Shop
+
+    // [Done]
     app.route('/buyer/shops')
         .get(getShopList)
 
+    // [Done]
     app.route('/buyer/shop/detail/:idSellerAccount')
         .get(getOneShopInfo)
 
+    // [Done]
     app.route('/buyer/shops/search')
         .get(getSearchShopList)
 
-    // Voucher 
-    app.route('/buyer/voucher')
+    // Voucher
+    // [Done]
+    app.route('/buyer/voucher/detail')
         .get(getOneVoucherInfo)
 
+    // [Done]
     app.route('/buyer/vouchers')
         .get(getVoucherActiveFromShop)
 
@@ -113,6 +134,7 @@ const routes = async (app) => {
         .get(loginRequiredBuyer, getNotificationBuyer)
 
     // Cart
+    // [Done]
     app.route('/buyer/cart/:idBuyerAccount')
         .post(loginRequiredBuyer, postOneProductToCart)
         .delete(loginRequiredBuyer, deleteMultipleProductFromCart)
@@ -120,29 +142,40 @@ const routes = async (app) => {
         .get(loginRequiredBuyer, getKeranjangBuyer)
 
     // Order
+
+    // [Done]
     app.route('/buyer/order')
         .post(loginRequiredBuyer, postOneOrderBuyer)
 
+    // [Done]
     app.route('/buyer/orders/:idBuyerAccount')
         .get(loginRequiredBuyer, getAllOrderBuyer)
 
+
+    // [Done]
     app.route('/buyer/order/detail/:idOrder')
         .get(loginRequiredBuyer, getOneOrderBuyer)
         .put(loginRequiredBuyer, putCancelOneOrder)
 
+    // [Done]
     app.route('/buyer/order/finish/:idOrder')
         .put(loginRequiredBuyer, putFinishOrder)
 
     // Review
-    app.route('/buyer/review')
+    // [Done]
+    app.route('/buyer/review/:idReview')
         .post(loginRequiredBuyer, postOneReviewBuyer)
 
+    // [Done]
+    //Get Review and Unreview
     app.route('/buyer/reviews/:idBuyerAccount')
         .get(loginRequiredBuyer, getAllReviewBuyer)
 
+    // [Done]
     app.route('/buyer/review/detail/:idReview')
         .get(getOneReviewBuyer)
 
+    // [Done]
     app.route('/buyer/review/shop/:idSellerAccount')
         .get(getAllReviewFromShop)
 }

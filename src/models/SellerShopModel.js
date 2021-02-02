@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import pagination from 'mongoose-paginate-v2';
 
 const Schema = mongoose.Schema;
 
@@ -60,3 +61,5 @@ export const SellerShopSchema = new Schema({
         default: 0
     }
 })
+
+SellerShopSchema.plugin(pagination)

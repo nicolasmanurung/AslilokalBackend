@@ -15,6 +15,12 @@ export const ReviewSchema = new Schema({
     idProduct: {
         type: String
     },
+    imgProduct: {
+        type: String
+    },
+    nameProduct: {
+        type: String
+    },
     nameReviewer: {
         type: String
     },
@@ -23,6 +29,10 @@ export const ReviewSchema = new Schema({
     },
     textOfReview: {
         type: String
+    },
+    statusReview: {
+        type: String,
+        default: "unreview"
     },
     createdAt: {
         type: Date,
