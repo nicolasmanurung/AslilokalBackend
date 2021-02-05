@@ -34,7 +34,8 @@ import {
     updateSellerSelfImage,
     updateShopImage,
     updateKtpImage,
-    updateProductImage
+    updateProductImage,
+    jwtSellerTesting
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -46,6 +47,10 @@ const routes = async(app) => {
     app.route('/testing/update')
         .put(updateOneImage)
 
+
+    // Testing JWT
+    app.route('/seller/testing/jwt')
+        .post(loginRequiredSeller, jwtSellerTesting)
 
     // Update Image
     // [Done]

@@ -67,6 +67,21 @@ export const loginRequiredSeller = async(req, res, next) => {
     }
 };
 
+// Testing JWT
+export const jwtSellerTesting = async(req, res, next) => {
+    try {
+        return res.status(200).json({
+            email: req.user.emailSeller,
+            idUser: req.user._id
+        })
+    } catch (error) {
+        return res.status(401).json({
+            success: false,
+            message: 'Ada kesalahan!'
+        });
+    }
+}
+
 // Done
 export const sellerRegisterAccount = async(req, res) => {
     try {
@@ -225,10 +240,10 @@ export const sellerLoginAccount = async(req, res) => {
 export const postResubmitTokenSeller = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
-            emailAccount: req.body.emailSeller
+            emailAccount: req.user.emailSeller
         });
 
-        const emailAccount = req.body.emailSeller
+        const emailAccount = req.user.emailSeller
         let tokenVerify = Math.random().toString(16).substring(9);
         if (!oneToken) {
             const token = new TokenAccount({
@@ -277,7 +292,6 @@ export const postResubmitTokenSeller = async(req, res) => {
                     });
                 }
             });
-
             return res.status(200).json({
                 success: true,
                 message: 'Token berhasil di kirim'
@@ -298,7 +312,7 @@ export const postResubmitTokenSeller = async(req, res) => {
                     </tr>
                     <tr>
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + req.body.emailSeller + `" target="_blank">` + req.body.emailSeller + `</a>.
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
                         </td>
                     </tr>
                     <tr>
@@ -344,12 +358,12 @@ export const postResubmitTokenSeller = async(req, res) => {
 export const getTokenCodeSeller = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
-            emailAccount: req.body.emailSeller
+            emailAccount: req.user.emailSeller
         });
         if (oneToken.tokenVerify === req.body.tokenVerify) {
             try {
                 await SellerAccount.findOneAndUpdate({
-                    emailSeller: req.body.emailSeller
+                    emailSeller: req.user.emailSeller
                 }, {
                     $set: {
                         emailVerifyStatus: true

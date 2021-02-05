@@ -35,7 +35,8 @@ import {
     getAllReviewBuyer,
     getOneReviewBuyer,
     getAllReviewFromShop,
-    updateImgSelfBuyer
+    updateImgSelfBuyer,
+    jwtBuyerTesting
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -44,8 +45,11 @@ const routes = async(app) => {
     // app.route('/testing/image')
     //     .post(uploadSingleImg, postTesting);
 
-    // Update
-    // [Done]
+    // JWT Testing
+    app.route('/buyer/testing/jwt')
+        .post(loginRequiredBuyer, jwtBuyerTesting)
+        // Update
+        // [Done]
     app.route('/buyer/update/imgself')
         .put(loginRequiredBuyer, updateImgSelfBuyer)
 

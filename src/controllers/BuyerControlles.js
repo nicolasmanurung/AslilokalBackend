@@ -56,6 +56,21 @@ export const loginRequiredBuyer = async(req, res, next) => {
     }
 };
 
+// Testing JWT
+export const jwtBuyerTesting = async(req, res, next) => {
+    try {
+        return res.status(200).json({
+            email: req.user.emailBuyer,
+            idUser: req.user._id
+        })
+    } catch (error) {
+        return res.status(401).json({
+            success: false,
+            message: 'Ada kesalahan!'
+        });
+    }
+}
+
 // Belum di Test
 export const buyerRegisterAccount = async(req, res) => {
     try {
