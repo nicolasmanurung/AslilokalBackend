@@ -210,6 +210,7 @@ export const buyerLoginAccount = async(req, res) => {
             } else {
                 return res.status(200).json({
                     success: true,
+                    username: findBuyerAccount._id,
                     token: jwt.sign({
                         emailBuyer: findBuyerAccount.emailBuyer,
                         _id: findBuyerAccount._id

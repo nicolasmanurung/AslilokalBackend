@@ -220,6 +220,7 @@ export const sellerLoginAccount = async(req, res) => {
             } else {
                 return res.status(200).json({
                     success: true,
+                    username: findSellerAccount._id,
                     token: jwt.sign({
                         emailSeller: findSellerAccount.emailSeller,
                         _id: findSellerAccount._id
