@@ -13,16 +13,12 @@ aws.config.update({
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
 const fileFilter = (req, file, cb) => {
-    if (
-        file.mimetype === 'image/jpeg' ||
-        file.mimetype === 'image/png'
-    ) {
+    let ext = path.extname(file.originalname);
+    if (ext == '.jpg' || ext == '.png' || ext == '.gif' || ext == '.jpeg') {
+        console.log('Extension Check');
         cb(null, true);
     } else {
-        cb(
-            Error('Invalid file type, only JPGs and PNGs are allowed!'),
-            false
-        );
+        cb('Only Images Are Allow', false);
     }
 };
 
