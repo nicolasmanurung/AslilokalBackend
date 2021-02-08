@@ -15,12 +15,12 @@ const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 const fileFilter = (req, file, cb) => {
     if (
         file.mimetype === 'image/jpeg' ||
-        file.mimetype === 'image/png' ||
-        file.mimetype === 'image/jpg'
+        file.mimetype === 'image/png'
     ) {
         console.log(file.mimetype);
         cb(null, true);
     } else {
+        console.log(file.mimetype);
         cb(
             Error('Invalid file type, only JPGs and PNGs are allowed!'),
             false
