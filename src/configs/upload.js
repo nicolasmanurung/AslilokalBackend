@@ -13,9 +13,10 @@ aws.config.update({
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
 const fileFilter = (req, file, cb) => {
+    console.log(file.mimetype);
+    console.log(file.originalname);
     if (
-        file.mimetype === 'image/jpeg' ||
-        file.mimetype === 'image/png'
+        file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg"
     ) {
         console.log(file.mimetype);
         cb(null, true);
