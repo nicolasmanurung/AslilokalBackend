@@ -703,7 +703,7 @@ export const putOneProduct = async(req, res) => {
             isAvailable,
         } = req.body
 
-        let oneProduct = await Product.findOneAndUpdate(req.params.idProduct, {
+        let oneProduct = await Product.findByIdAndUpdate(req.params.idProduct, {
             nameProduct,
             productCategory,
             priceProduct,
@@ -713,6 +713,7 @@ export const putOneProduct = async(req, res) => {
             descProduct,
             isAvailable,
         });
+
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil',
@@ -775,7 +776,7 @@ export const putOneDebtorLunas = async(req, res) => {
             statusTransaction
         } = req.body
 
-        let oneDebtor = await Debtor.findOneAndUpdate(req.params.idDebtor, {
+        let oneDebtor = await Debtor.findByIdAndUpdate(req.params.idDebtor, {
             nameDebtor,
             totalDebt,
             descDebt,
