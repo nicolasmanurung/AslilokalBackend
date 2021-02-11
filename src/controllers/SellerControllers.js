@@ -18,9 +18,6 @@ import { SellerBiodataSchema } from "../models/SellerBiodataModel";
 import { SellerShopSchema } from "../models/SellerShopModel";
 import { TokenAccountSchema } from "../models/TokenAccountModel";
 import { VoucherSchema } from '../models/VoucherModel';
-updateProductImg
-}
-from '../configs/upload';
 
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
