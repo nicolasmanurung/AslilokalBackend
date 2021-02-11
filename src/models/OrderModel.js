@@ -32,6 +32,7 @@ export const OrderSchema = new Schema({
             type: String
         }
     }],
+    // seller, jne, jnt, dll
     courierType: {
         type: String
     },
@@ -65,5 +66,9 @@ export const OrderSchema = new Schema({
     isFinish: {
         type: Boolean,
         default: false
+    },
+    orderAt: {
+        type: Date,
+        default: Date.now
     }
 });

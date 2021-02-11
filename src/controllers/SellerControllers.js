@@ -1,24 +1,26 @@
-import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-
+import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import {
+    updateProductImg,
+    // UPDATE
+    updateSellerImg,
+    uploadProductImg,
+    // UPLOAD
+    uploadUsrImg
+} from '../configs/upload';
+import { DebtorSchema } from '../models/DebtorModel';
+import { NotificationSchema } from '../models/NotificationModel';
+import { OrderSchema } from '../models/OrderModel';
+import { ProductSchema } from "../models/ProductModel";
 import { SellerAccountSchema } from "../models/SellerAccountModel";
 import { SellerBiodataSchema } from "../models/SellerBiodataModel";
 import { SellerShopSchema } from "../models/SellerShopModel";
 import { TokenAccountSchema } from "../models/TokenAccountModel";
-import { ProductSchema } from "../models/ProductModel";
-import { DebtorSchema } from '../models/DebtorModel';
 import { VoucherSchema } from '../models/VoucherModel';
-import { NotificationSchema } from '../models/NotificationModel';
-import { OrderSchema } from '../models/OrderModel';
-import {
-    // UPLOAD
-    uploadUsrImg,
-    uploadProductImg,
-    // UPDATE
-    updateSellerImg,
-    updateProductImg
-} from '../configs/upload';
+updateProductImg
+}
+from '../configs/upload';
 
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
@@ -750,7 +752,10 @@ export const postOneDebtor = async(req, res) => {
 export const getAllDebtorBySeller = async(req, res) => {
     try {
         const allDebtor = await Debtor.find({
-            idSellerAccount: req.params.idSellerAccount
+            idSellerAccount: req.params.idSellerAccount,
+            createAt: {
+                $gt: new Date(req.query.year + ',' + req.query.month)
+            }
         });
         return res.status(200).json({
             success: true,
@@ -850,7 +855,10 @@ export const getVoucherBySeller = async(req, res) => {
 export const getNotificationBySeller = async(req, res) => {
     try {
         const findAllNotification = await Notification.find({
-            idUser: req.params.idSellerAccount
+            idUser: req.params.idSellerAccount,
+            createdAt: {
+                $gt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+            }
         });
         return res.status(200).json({
             success: true,
@@ -888,13 +896,39 @@ export const getOneNotificationSeller = async(req, res) => {
     }
 }
 
-// Belum di Test
+// Sudah di Test
+// export const getAllOrderSeller = async(req, res) => {
+//     try {
+//         const allOrder = await Order.find({
+//             idSellerAccount: req.params.idSellerAccount,
+//             statusOrder: req.query.status
+//         });
+//         return res.status(200).json({
+//             success: true,
+//             message: 'Berhasil mengambil data',
+//             result: allOrder
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(401).json({
+//             success: false,
+//             message: 'Maaf ada gangguan server!'
+//         });
+//     }
+// }
+
+//Sudah di Test
 export const getAllOrderSeller = async(req, res) => {
     try {
+        console.log(new Date(Date.now() - 48 * 60 * 60 * 1000))
+        console.log(new Date(Date.now()))
         const allOrder = await Order.find({
             idSellerAccount: req.params.idSellerAccount,
-            statusOrder: req.query.status
-        });
+            statusOrder: req.query.status,
+            orderAt: {
+                $gt: new Date(Date.now() - 48 * 60 * 60 * 1000)
+            }
+        })
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil data',

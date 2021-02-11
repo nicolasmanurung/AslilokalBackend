@@ -29,6 +29,7 @@ import {
     getOneVoucher,
     uploadOneProductImg,
     uploadMultipleImg,
+    getOrderByQuery,
     // UPDATE
     updateOneImage,
     updateSellerSelfImage,
@@ -159,6 +160,11 @@ const routes = async(app) => {
         .get(loginRequiredSeller, getOneNotificationSeller)
 
     // Order
+
+    // Testing
+    // app.route('/seller/orders/testing/:idSellerAccount')
+    //     .get(loginRequiredSeller, getOrderByQuery)
+
     // [Done]
     app.route('/seller/orders/:idSellerAccount')
         .get(loginRequiredSeller, getAllOrderSeller)
