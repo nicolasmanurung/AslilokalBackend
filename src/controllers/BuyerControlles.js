@@ -974,16 +974,19 @@ export const getKeranjangBuyer = async(req, res) => {
 export const postOneOrderBuyer = async(req, res) => {
     try {
         const oneOrder = new Order(req.body);
-        await oneOrder.save((err, order) => {
-            const oneNotification = new Notification({
-                idUser: req.body.idSellerAccount,
-                statusNotification: "order",
-                refId = order.id,
-                isRead: "unread",
-                descNotification: `Ada orderan nih...`
-            });
-            await oneNotification.save();
+
+        //var orderId = "";
+        await oneOrder.save()
+
+        const oneNotification = new Notification({
+            idUser: req.body.idSellerAccount,
+            statusNotification: "order",
+            refId: oneOrder._id,
+            isRead: "unread",
+            descNotification: `Ada orderan nih...`
         });
+
+        await oneNotification.save();
         await oneOrder.save();
         return res.status(200).json({
             success: true,

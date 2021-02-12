@@ -973,7 +973,7 @@ export const putStatusOrder = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idBuyerAccount,
             statusNotification: req.body.statusOrder,
-            refId = req.params.idOrder,
+            refId: req.params.idOrder,
             isRead: "unread",
             descNotification: "Lihat status pesanan mu telah berubah!"
         })
@@ -1003,7 +1003,7 @@ export const putAcceptCancelOrder = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idBuyerAccount,
             statusNotification: req.body.statusOrder,
-            refId = req.params.idOrder,
+            refId: req.params.idOrder,
             isRead: "unread",
             descNotification: "Pesanan kamu berhasil di batalkan"
         });
