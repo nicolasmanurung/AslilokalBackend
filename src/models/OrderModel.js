@@ -67,6 +67,10 @@ export const OrderSchema = new Schema({
         type: Boolean,
         default: false
     },
+    //iterasi
+    messageCancel: {
+        type: String
+    },
     orderAt: {
         type: Date,
         default: Date.now

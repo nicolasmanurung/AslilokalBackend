@@ -974,16 +974,17 @@ export const getKeranjangBuyer = async(req, res) => {
 export const postOneOrderBuyer = async(req, res) => {
     try {
         const oneOrder = new Order(req.body);
-
-        const oneNotification = new Notification({
-            idUser: req.body.idSellerAccount,
-            statusNotification: "order",
-            isRead: "unread",
-            descNotification: `Ada orderan nih...`
+        await oneOrder.save((err, order) => {
+            const oneNotification = new Notification({
+                idUser: req.body.idSellerAccount,
+                statusNotification: "order",
+                refId = order.id,
+                isRead: "unread",
+                descNotification: `Ada orderan nih...`
+            });
+            await oneNotification.save();
         });
-
         await oneOrder.save();
-        await oneNotification.save();
         return res.status(200).json({
             success: true,
             message: 'Data berhasil ditambahkan'
@@ -1040,7 +1041,7 @@ export const getOneOrderBuyer = async(req, res) => {
 // Belum di Test
 export const putCancelOneOrder = async(req, res) => {
     try {
-        await Order.findOneAndUpdate(req.params.idOrder, {
+        const order = await Order.findOneAndUpdate(req.params.idOrder, {
             $set: {
                 isCancelBuyer: true
             }
@@ -1048,6 +1049,7 @@ export const putCancelOneOrder = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idSellerAccount,
             statusNotification: "cancel",
+            refId: order.id,
             isRead: "unread",
             descNotification: `Wah, ada orderan yang minta dibatalkan, coba lihat...`
         })
@@ -1114,7 +1116,7 @@ export const putFinishOrder = async(req, res) => {
 // Belum di Test
 export const postOneReviewBuyer = async(req, res) => {
     try {
-        await Review.findOneAndUpdate(req.params.idReview, {
+        const review = await Review.findOneAndUpdate(req.params.idReview, {
             $set: {
                 nameReviewer: req.body.nameReviewer,
                 starReview: req.body.starReview,
@@ -1125,6 +1127,7 @@ export const postOneReviewBuyer = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idSellerAccount,
             statusNotification: "review",
+            refId: review.id,
             isRead: "unread",
             descNotification: "Lihat ada pembeli yang mereview pesanannya!"
         })

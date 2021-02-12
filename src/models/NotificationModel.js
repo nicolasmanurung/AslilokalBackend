@@ -10,6 +10,9 @@ export const NotificationSchema = new Schema({
     statusNotification: {
         type: String
     },
+    refId: {
+        type: String
+    },
     isRead: {
         // unread, read, etc
         type: String

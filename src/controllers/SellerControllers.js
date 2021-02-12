@@ -917,6 +917,8 @@ export const getOneNotificationSeller = async(req, res) => {
 //Sudah di Test
 export const getAllOrderSeller = async(req, res) => {
     try {
+        // Tambahi untuk Proses, Menunggu dan Selesai (30 hari terakhir)
+        // Ganti menjadi Date = query.date
         console.log(new Date(Date.now() - 48 * 60 * 60 * 1000))
         console.log(new Date(Date.now()))
         const allOrder = await Order.find({
@@ -971,6 +973,7 @@ export const putStatusOrder = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idBuyerAccount,
             statusNotification: req.body.statusOrder,
+            refId = req.params.idOrder,
             isRead: "unread",
             descNotification: "Lihat status pesanan mu telah berubah!"
         })
@@ -1000,6 +1003,7 @@ export const putAcceptCancelOrder = async(req, res) => {
         const oneNotification = new Notification({
             idUser: req.body.idBuyerAccount,
             statusNotification: req.body.statusOrder,
+            refId = req.params.idOrder,
             isRead: "unread",
             descNotification: "Pesanan kamu berhasil di batalkan"
         });
