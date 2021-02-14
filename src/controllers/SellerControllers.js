@@ -165,7 +165,12 @@ export const sellerRegisterAccount = async(req, res) => {
                             await newSeller.save();
                             return res.status(200).json({
                                 success: true,
-                                message: 'Akun berhasil dibuat'
+                                message: 'Akun berhasil dibuat',
+                                username: newSeller._id,
+                                token: jwt.sign({
+                                    emailSeller: newSeller.emailSeller,
+                                    _id: newSeller._id
+                                }, "KODELAPOAPI")
                             });
                         } catch (error) {
                             console.log(error)
