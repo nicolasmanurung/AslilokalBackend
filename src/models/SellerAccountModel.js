@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 export const SellerAccountSchema = new Schema({
     noTelpSeller: {
-        type: String,
-        required: true
+        type: String
     },
     emailSeller: {
         type: String,

@@ -974,8 +974,6 @@ export const getKeranjangBuyer = async(req, res) => {
 export const postOneOrderBuyer = async(req, res) => {
     try {
         const oneOrder = new Order(req.body);
-
-        //var orderId = "";
         await oneOrder.save()
 
         const oneNotification = new Notification({
