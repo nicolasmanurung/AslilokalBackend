@@ -369,33 +369,42 @@ export const getTokenCodeSeller = async(req, res) => {
         const oneToken = await TokenAccount.findOne({
             emailAccount: req.user.emailSeller
         });
-        if (oneToken.tokenVerify === req.body.tokenVerify) {
-            try {
-                await SellerAccount.findOneAndUpdate({
-                    emailSeller: req.user.emailSeller
-                }, {
-                    $set: {
-                        emailVerifyStatus: true
-                    }
-                });
-                await oneToken.remove();
-                return res.status(200).json({
-                    success: true,
-                    message: 'Token terkonfirmasi'
-                });
-            } catch (error) {
-                console.log(error);
+
+        if (oneToken) {
+            if (oneToken.tokenVerify === req.body.tokenVerify) {
+                try {
+                    await SellerAccount.findOneAndUpdate({
+                        emailSeller: req.user.emailSeller
+                    }, {
+                        $set: {
+                            emailVerifyStatus: true
+                        }
+                    });
+                    await oneToken.remove();
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Token terkonfirmasi'
+                    });
+                } catch (error) {
+                    console.log(error);
+                    return res.status(200).json({
+                        success: false,
+                        message: 'Ada kesalahan'
+                    });
+                }
+            } else {
                 return res.status(200).json({
                     success: false,
-                    message: 'Ada kesalahan'
+                    message: 'Token salah'
                 });
             }
-        } else {
+        } else if (!oneToken) {
             return res.status(200).json({
                 success: false,
-                message: 'Token salah'
+                message: 'Maaf token salah...'
             });
         }
+
     } catch (error) {
         console.log(error);
         return res.status(401).json({
