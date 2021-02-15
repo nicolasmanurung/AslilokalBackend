@@ -80,8 +80,11 @@ const routes = async(app) => {
 
     // [Done]
     app.route('/seller/verify')
-        .get(loginRequiredSeller, getTokenCodeSeller)
         .post(loginRequiredSeller, postResubmitTokenSeller)
+
+    // [Done]
+    app.route('/seller/verify/token')
+        .post(loginRequiredSeller, getTokenCodeSeller)
 
     // [Done]
     app.route('/seller/account')
