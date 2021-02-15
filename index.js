@@ -5,6 +5,7 @@ import bodyParser, { json } from 'body-parser';
 import cors from 'cors';
 import sellerRoutes from './src/routes/SellerRoutes';
 import buyerRoutes from './src/routes/BuyerRoutes';
+import adminRoutes from './src/routes/AdminRoutes';
 
 const app = express();
 app.use(cors());
@@ -53,6 +54,7 @@ app.use((req, res, next) => {
 
 sellerRoutes(app);
 buyerRoutes(app);
+adminRoutes(app);
 
 app.get('/', (req, res) => {
     return res.status(200).send("Halooo");

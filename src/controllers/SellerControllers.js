@@ -167,6 +167,8 @@ export const sellerRegisterAccount = async(req, res) => {
                                 success: true,
                                 message: 'Akun berhasil dibuat',
                                 username: newSeller._id,
+                                emailVerifyStatus: newSeller.emailVerifyStatus,
+                                shopVerifyStatus: newSeller.shopVerifyStatus,
                                 token: jwt.sign({
                                     emailSeller: newSeller.emailSeller,
                                     _id: newSeller._id
@@ -225,6 +227,8 @@ export const sellerLoginAccount = async(req, res) => {
                 return res.status(200).json({
                     success: true,
                     username: findSellerAccount._id,
+                    emailVerifyStatus: findSellerAccount.emailVerifyStatus,
+                    shopVerifyStatus: findSellerAccount.shopVerifyStatus,
                     token: jwt.sign({
                         emailSeller: findSellerAccount.emailSeller,
                         _id: findSellerAccount._id
@@ -1277,10 +1281,18 @@ export const uploadMultipleImg = async(req, res) => {
                     message: 'Image upload error!'
                 });
             } else {
-                let oneSellerBiodata = new SellerBiodata(req.body);
-                oneSellerBiodata.imgSelfSeller = req.files['imgSelfSeller'][0].key;
-                oneSellerBiodata.ktpImgSeller = req.files['ktpImgSeller'][0].key;
-                oneSellerBiodata.save()
+                let oneSeller = SellerBiodata.findOne({
+                    idSellerAccount: req.body.idSellerAccount
+                })
+
+                if (!oneSeller) {
+                    let oneSellerBiodata = new SellerBiodata(req.body);
+                    oneSellerBiodata.imgSelfSeller = req.files['imgSelfSeller'][0].key;
+                    oneSellerBiodata.ktpImgSeller = req.files['ktpImgSeller'][0].key;
+                    oneSellerBiodata.save()
+                } else {
+
+                }
                 return res.status(200).json({
                     success: true,
                     message: 'Berhasil menambahkan'
