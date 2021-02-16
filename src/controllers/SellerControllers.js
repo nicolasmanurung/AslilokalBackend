@@ -502,30 +502,60 @@ export const putSellerBiodata = async(req, res) => {
 }
 
 // Belum di Test
-export const postShopBiodata = async(req, res) => {
+export const postShopBiodata = async(req, res, next) => {
     try {
         uploadShop(req, res, err => {
             if (err) {
                 console.log(err);
                 return res.status(401).json({
                     success: false,
-                    message: 'Image upload error!'
+                    message: 'Kesalahan saat mengupdate gambar'
                 });
             } else {
-                let oneShopBio = new SellerShop(req.body);
-                oneShopBio.imgShop = req.file.key;
-                oneShopBio.save();
-                return res.status(200).json({
-                    success: true,
-                    message: 'Berhasil menambahkan'
-                });
+                next();
             }
-        });
+        })
     } catch (error) {
         console.log(error);
         return res.status(401).json({
             success: false,
             message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const fillShopData = async(req, res) => {
+    try {
+        await SellerShop.findOneAndUpdate({
+            idSellerAccount: req.body.idSellerAccount
+        }, {
+            $set: {
+                idSellerAccount: req.body.idSellerAccount,
+                nameShop: req.body.nameShop,
+                noTelpSeller: req.body.noTelpSeller,
+                noWhatsappShop: req.body.noWhatsappShop,
+                isPickup: req.body.isPickup,
+                isDelivery: req.body.isDelivery,
+                imgShop: req.file.key,
+                freeOngkirLimitKm: req.body.freeOngkirLimitKm,
+                addressShop: req.body.addressShop,
+                isTwentyFourHours: req.body.isTwentyFourHours,
+                openTime: req.body.openTime,
+                closeTime: req.body.closeTime
+            }
+        }, {
+            new: true,
+            upsert: true
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambahkan'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
         });
     }
 }
@@ -1280,32 +1310,17 @@ export const updateProductImage = async(req, res) => {
 
 
 // Done
-export const uploadMultipleImg = async(req, res) => {
+export const uploadMultipleImg = async(req, res, next) => {
     try {
         uploadSellerMultiple(req, res, err => {
             if (err) {
                 console.log(err);
                 return res.status(401).json({
                     success: false,
-                    message: 'Image upload error!'
+                    message: 'Kesalahan saat mengupdate gambar'
                 });
             } else {
-                let oneSeller = SellerBiodata.findOne({
-                    idSellerAccount: req.body.idSellerAccount
-                })
-
-                if (!oneSeller) {
-                    let oneSellerBiodata = new SellerBiodata(req.body);
-                    oneSellerBiodata.imgSelfSeller = req.files['imgSelfSeller'][0].key;
-                    oneSellerBiodata.ktpImgSeller = req.files['ktpImgSeller'][0].key;
-                    oneSellerBiodata.save()
-                } else {
-
-                }
-                return res.status(200).json({
-                    success: true,
-                    message: 'Berhasil menambahkan'
-                });
+                next();
             }
         });
     } catch (error) {
@@ -1313,6 +1328,56 @@ export const uploadMultipleImg = async(req, res) => {
         return res.status(401).json({
             success: false,
             message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const fillData = async(req, res) => {
+    try {
+        const {
+            idSeller = req.body.idSellerAccount,
+                nameSeller = req.body.nameSellerBiodata,
+                idKtp = req.body.idKtpNumber,
+                telpNo = req.body.telpNumber,
+                birthDate = req.body.birthDateSeller,
+                address = req.body.addressSeller,
+                imgSelf = req.files['imgSelfSeller'][0].key,
+                ktpImg = req.files['ktpImgSeller'][0].key,
+                ovoNumber = req.body.ovoNumber,
+                danaNumber = req.body.danaNumber,
+                gopayNumber = req.body.gopayNumber
+        } = req.body;
+
+        var dataUpdate = await SellerBiodata.findOneAndUpdate({
+            idSellerAccount: req.body.idSellerAccount
+        }, {
+            $set: {
+                idSellerAccount: idSeller,
+                nameSellerBiodata: nameSeller,
+                idKtpNumber: idKtp,
+                telpNumber: telpNo,
+                birthDateSeller: birthDate,
+                addressSeller: address,
+                imgSelfSeller: imgSelf,
+                ktpImgSeller: ktpImg,
+                'paymentInfo.ovoNumber': ovoNumber,
+                'paymentInfo.danaNumber': danaNumber,
+                'paymentInfo.gopayNumber': gopayNumber
+            }
+        }, {
+            new: true,
+            upsert: true
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambahkan'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate data'
         });
     }
 }

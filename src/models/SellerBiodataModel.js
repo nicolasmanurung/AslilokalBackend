@@ -22,7 +22,6 @@ export const SellerBiodataSchema = new Schema({
     birthDateSeller: {
         type: Date,
         //Testing
-        default: Date.now
     },
     addressSeller: {
         type: String,

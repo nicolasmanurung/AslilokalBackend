@@ -36,7 +36,9 @@ import {
     updateShopImage,
     updateKtpImage,
     updateProductImage,
-    jwtSellerTesting
+    jwtSellerTesting,
+    fillData,
+    fillShopData,
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -88,7 +90,7 @@ const routes = async(app) => {
 
     // [Done]
     app.route('/seller/account')
-        .post(loginRequiredSeller, uploadMultipleImg)
+        .post(loginRequiredSeller, uploadMultipleImg, fillData)
         // ktpImgSeller, imgSelfSeller - postSellerBiodata 
 
     // [Done]
@@ -99,7 +101,7 @@ const routes = async(app) => {
 
     // [Done]
     app.route('/seller/shop')
-        .post(loginRequiredSeller, postShopBiodata)
+        .post(loginRequiredSeller, postShopBiodata, fillShopData)
         // imgShop - postShopBiodata
 
     // [Done]

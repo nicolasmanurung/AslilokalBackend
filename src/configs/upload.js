@@ -5,8 +5,8 @@ import aws from 'aws-sdk';
 import crypto from 'crypto';
 
 aws.config.update({
-    accessKeyId: 'AKIA36EE2TFWE34DVTXN',
-    secretAccessKey: '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',
+    accessKeyId: 'AKIA36EE2TFWECDA4OMJ',
+    secretAccessKey: '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',
     region: 'ap-southeast-1'
 });
 
