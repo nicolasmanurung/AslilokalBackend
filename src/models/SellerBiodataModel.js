@@ -20,7 +20,7 @@ export const SellerBiodataSchema = new Schema({
         required: true
     },
     birthDateSeller: {
-        type: Date,
+        type: String,
         //Testing
     },
     addressSeller: {
