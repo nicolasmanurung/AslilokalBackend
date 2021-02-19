@@ -418,10 +418,26 @@ export const getTokenCodeSeller = async(req, res) => {
 // Belum di Test
 export const postSellerBiodata = async(req, res) => {
     try {
-        // const oneSellerBiodata = new SellerBiodata(req.body);
-        // oneSellerBiodata.imgSelfSeller = req.files.imgSelfSeller.key;
-        // oneSellerBiodata.ktpImgSeller = req.files.ktpImgSeller.key;
-        // await oneSellerBiodata.save()
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambahkan'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const putSellerShopRequestRegistration = async(req, res) => {
+    try {
+        await SellerAccount.findByIdAndUpdate(req.params.idSellerAccount, {
+            $set: {
+                shopVerifyStatus: req.body.status
+            }
+        })
         return res.status(200).json({
             success: true,
             message: 'Berhasil menambahkan'

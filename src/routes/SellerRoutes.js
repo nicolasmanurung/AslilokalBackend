@@ -39,6 +39,7 @@ import {
     jwtSellerTesting,
     fillData,
     fillShopData,
+    putSellerShopRequestRegistration
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -83,6 +84,11 @@ const routes = async(app) => {
     // [Done]
     app.route('/seller/verify')
         .post(loginRequiredSeller, postResubmitTokenSeller)
+
+    // []
+    app.route('/seller/shop/request/:idSellerAccount')
+        .put(loginRequiredSeller, putSellerShopRequestRegistration)
+
 
     // [Done]
     app.route('/seller/verify/token')
