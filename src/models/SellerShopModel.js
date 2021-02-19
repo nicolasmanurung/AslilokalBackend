@@ -36,7 +36,7 @@ export const SellerShopSchema = new Schema({
         type: String
     },
     freeOngkirLimitKm: {
-        type: String
+        type: Boolean
     },
     addressShop: {
         type: String,
