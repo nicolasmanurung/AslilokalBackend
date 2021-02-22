@@ -815,7 +815,8 @@ export const getAllDebtorBySeller = async(req, res) => {
         const allDebtor = await Debtor.find({
             idSellerAccount: req.params.idSellerAccount,
             createAt: {
-                $gt: new Date(req.query.year + ',' + req.query.month)
+                $gt: new Date(req.query.year + ',' + req.query.month),
+                $lt: new Date(Date.now)
             }
         });
         return res.status(200).json({
@@ -842,7 +843,7 @@ export const putOneDebtorLunas = async(req, res) => {
             statusTransaction
         } = req.body
 
-        let oneDebtor = await Debtor.findByIdAndUpdate(req.params.idDebtor, {
+        await Debtor.findByIdAndUpdate(req.params.idDebtor, {
             nameDebtor,
             totalDebt,
             descDebt,
@@ -851,8 +852,7 @@ export const putOneDebtorLunas = async(req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: 'Berhasil mengedit',
-            result: oneDebtor
+            message: 'Berhasil mengedit'
         });
     } catch (error) {
         console.log(error);
