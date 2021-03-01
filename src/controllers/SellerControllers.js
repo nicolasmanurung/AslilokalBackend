@@ -892,7 +892,6 @@ export const postOneVoucher = async(req, res) => {
     }
 }
 
-// Belum di Test
 export const getVoucherBySeller = async(req, res) => {
     try {
         const findAllVoucher = await Voucher.find({
@@ -902,6 +901,22 @@ export const getVoucherBySeller = async(req, res) => {
             success: true,
             message: 'Berhasil mengambil data',
             result: findAllVoucher
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const deleteVoucherById = async(req, res) => {
+    try {
+        await Voucher.findByIdAndDelete(req.params.idVoucher);
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menghapus voucher'
         });
     } catch (error) {
         console.log(error);
