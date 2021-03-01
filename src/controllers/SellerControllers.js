@@ -983,8 +983,6 @@ export const getAllOrderSeller = async(req, res) => {
     try {
         // Tambahi untuk Proses, Menunggu dan Selesai (30 hari terakhir)
         // Ganti menjadi Date = query.date
-        console.log(new Date(Date.now() - 48 * 60 * 60 * 1000))
-        console.log(new Date(Date.now()))
         const allOrder = await Order.find({
             idSellerAccount: req.params.idSellerAccount,
             statusOrder: req.query.status,
@@ -1424,6 +1422,34 @@ export const updateOneImage = async(req, res, next) => {
         return res.status(401).json({
             success: false,
             message: 'Gagal mengupdate gambar!'
+        });
+    }
+}
+
+export const getAnalitikPemasukanByMonth = async(req, res) => {
+    try {
+        var monthQuery = req.query.month;
+        var yearQuery = req.query.year;
+
+        var maxMonth = parseInt(monthQuery) + 1
+        const allTransaction = await Order.find({
+            idSellerAccount: req.params.idSellerAccount,
+            statusOrder: "done",
+            orderAt: {
+                $gte: new Date(yearQuery + ',' + monthQuery),
+                $lt: new Date(yearQuery + ',' + maxMonth)
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil',
+            result: allTransaction
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengambil data!'
         });
     }
 }

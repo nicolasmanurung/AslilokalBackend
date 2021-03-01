@@ -39,7 +39,8 @@ import {
     jwtSellerTesting,
     fillData,
     fillShopData,
-    putSellerShopRequestRegistration
+    putSellerShopRequestRegistration,
+    getAnalitikPemasukanByMonth
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -147,6 +148,8 @@ const routes = async(app) => {
     app.route('/seller/debtors/:idSellerAccount')
         .get(loginRequiredSeller, getAllDebtorBySeller)
 
+    // Delete
+
     // Voucher
 
     // [Done]
@@ -191,6 +194,13 @@ const routes = async(app) => {
     // [Done]
     app.route('/seller/order/cancel/:idOrder')
         .put(loginRequiredSeller, putAcceptCancelOrder)
+
+
+    // Analitik
+    // []
+    app.route('/seller/analitik/pemasukan/:idSellerAccount')
+        .get(loginRequiredSeller, getAnalitikPemasukanByMonth)
+
 
 }
 
