@@ -3,9 +3,11 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { AdminAccountSchema } from '../models/AdminAccountModel';
 import { SellerAccountSchema } from '../models/SellerAccountModel';
+import { OrderRevenueSchema } from '../models/OrderRevenue';
 
 const AdminAccount = mongoose.model('AdminAccount', AdminAccountSchema);
 const SellerAccount = mongoose.model('SellerAccount', SellerAccountSchema);
+const OrderRevenue = mongoose.model('OrderRevenue', OrderRevenueSchema);
 
 export const loginRequiredAdmin = async(req, res, next) => {
     if (req.user) {
@@ -116,6 +118,76 @@ export const putStatusShop = async(req, res) => {
             success: true,
             message: 'Berhasil di update',
             result: oneShop
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getShopRevenueRequest = async(req, res) => {
+    try {
+        const allRevenueRequest = await OrderRevenue.find({
+            statusRevenue: req.query.type
+        });
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: allRevenueRequest
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getOneShopRevenueRequest = async(req, res) => {
+    try {
+        const oneRevenueRequest = await OrderRevenue.findById(req.params.idRevenue);
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: oneRevenueRequest
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const putShopRevenueRequest = async(req, res) => {
+    try {
+        const oneOrderRevenue = await OrderRevenue.findByIdAndUpdate(req.params.idRevenue, {
+            statusRevenue: req.params.statusRevenue
+        }, {
+            $set: {
+                acceptAt: new Date.now
+            }
+        });
+
+        if (req.params.statusRevenue == "done") {
+            const oneNotification = new Notification({
+                idUser: oneOrderRevenue.idSellerAccount,
+                statusNotification: "revenue",
+                refId: req.params.idRevenue,
+                isRead: "unread",
+                descNotification: "Lihat saldo mu sudah di cairkan..."
+            });
+            await oneNotification.save()
+        }
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengubah data'
         });
     } catch (error) {
         console.log(error);

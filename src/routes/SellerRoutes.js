@@ -40,7 +40,10 @@ import {
     fillData,
     fillShopData,
     putSellerShopRequestRegistration,
-    getAnalitikPemasukanByMonth
+    getAnalitikPemasukanByMonth,
+    deleteVoucherById,
+    getAllHistoryRevenueOrder,
+    postOneRevenueOrder
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -164,6 +167,9 @@ const routes = async(app) => {
     app.route('/seller/voucher/detail/:idVoucher')
         .get(loginRequiredSeller, getOneVoucher)
 
+    app.route('/seller/voucher/delete/:idVoucher')
+        .delete(loginRequiredSeller, deleteVoucherById)
+
     // Notification
     // [Done]
     app.route('/seller/notifications/:idSellerAccount')
@@ -201,7 +207,12 @@ const routes = async(app) => {
     app.route('/seller/analitik/pemasukan/:idSellerAccount')
         .get(loginRequiredSeller, getAnalitikPemasukanByMonth)
 
+    // Revenue
+    app.route('/seller/analitik/revenue/:idSellerAccount')
+        .get(loginRequiredSeller, getAllHistoryRevenueOrder);
 
+    app.route('/seller/analitik/revenue/order')
+        .post(loginRequiredSeller, postOneRevenueOrder);
 }
 
 export default routes;

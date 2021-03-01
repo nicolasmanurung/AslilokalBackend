@@ -18,6 +18,8 @@ import { SellerBiodataSchema } from "../models/SellerBiodataModel";
 import { SellerShopSchema } from "../models/SellerShopModel";
 import { TokenAccountSchema } from "../models/TokenAccountModel";
 import { VoucherSchema } from '../models/VoucherModel';
+import { SellerRevenueSchema } from '../models/SellerRevenue';
+import { OrderRevenueSchema } from '../models/OrderRevenue';
 
 const mailgun = require("mailgun-js");
 const DOMAIN = 'nicolasmanurung.tech';
@@ -35,6 +37,8 @@ const Debtor = mongoose.model('Debtor', DebtorSchema);
 const Voucher = mongoose.model('Voucher', VoucherSchema);
 const Notification = mongoose.model('Notification', NotificationSchema);
 const Order = mongoose.model('Order', OrderSchema);
+const SellerRevenue = mongoose.model('SellerRevenue', SellerRevenueSchema);
+const OrderRevenue = mongoose.model('OrderRevenue', OrderRevenueSchema);
 
 // UPLOAD
 const uploadImgProduct = uploadProductImg.single('imgProduct');
@@ -1041,7 +1045,7 @@ export const getOneOrderSeller = async(req, res) => {
 // Belum Bayar, Dibayar, DiProses, Menunggu, Selesai
 export const putStatusOrder = async(req, res) => {
     try {
-        await Order.findByIdAndUpdate(req.params.idOrder, {
+        const oneOrder = await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
                 statusOrder: req.body.statusOrder
             }
@@ -1054,6 +1058,20 @@ export const putStatusOrder = async(req, res) => {
             isRead: "unread",
             descNotification: "Lihat status pesanan mu telah berubah!"
         })
+
+        // add pendapatan
+        if (req.body.statusOrder == "done") {
+            await SellerRevenue.findOneAndUpdate({
+                idSellerAccount: oneOrder.idSellerAccount
+            }, {
+                $inc: {
+                    sumSaldo: oneOrder.totalPayment
+                }
+            }, {
+                new: true,
+                upsert: true
+            })
+        }
 
         await oneNotification.save();
         return res.status(200).json({
@@ -1459,6 +1477,43 @@ export const getAnalitikPemasukanByMonth = async(req, res) => {
             success: true,
             message: 'Berhasil mengambil',
             result: allTransaction
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengambil data!'
+        });
+    }
+}
+
+export const getAllHistoryRevenueOrder = async(req, res) => {
+    try {
+        const allHistory = await OrderRevenue.find({
+            idSellerAccount: req.params.idSellerAccount
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil',
+            result: allHistory
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengambil data!'
+        });
+    }
+}
+
+export const postOneRevenueOrder = async(req, res) => {
+    try {
+        const oneOrderRevenue = new OrderRevenue(req.body);
+        await oneOrderRevenue.save();
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambah data'
         });
     } catch (error) {
         console.log(error);

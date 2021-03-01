@@ -19,6 +19,13 @@ export const SellerAccountSchema = new Schema({
         type: Boolean,
         default: false
     },
+    shopTypeStatus: {
+        //umkmtaput, pro, dll
+        type: String
+    },
+    validityTypeStatus: {
+        type: Date
+    },
     shopVerifyStatus: {
         // submit, review, accept, reject
         type: String,
