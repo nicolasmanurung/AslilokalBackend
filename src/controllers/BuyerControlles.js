@@ -981,7 +981,7 @@ export const postOneOrderBuyer = async(req, res) => {
             statusNotification: "order",
             refId: oneOrder._id,
             isRead: "unread",
-            descNotification: `Ada orderan nih...`
+            descNotification: `Ada orderan baru nih...`
         });
 
         await oneNotification.save();
@@ -1075,7 +1075,7 @@ export const putFinishOrder = async(req, res) => {
             $set: {
                 isCancelSeller: null,
                 isCancelBuyer: null,
-                isFinish: true
+                // isFinish: true
             }
         });
         // Review Created

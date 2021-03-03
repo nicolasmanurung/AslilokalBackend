@@ -1045,9 +1045,10 @@ export const getOneOrderSeller = async(req, res) => {
 // Belum Bayar, Dibayar, DiProses, Menunggu, Selesai
 export const putStatusOrder = async(req, res) => {
     try {
-        const oneOrder = await Order.findByIdAndUpdate(req.params.idOrder, {
+        await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
-                statusOrder: req.body.statusOrder
+                statusOrder: req.body.statusOrder,
+                acceptAt: new Date.now
             }
         });
 
@@ -1058,20 +1059,6 @@ export const putStatusOrder = async(req, res) => {
             isRead: "unread",
             descNotification: "Lihat status pesanan mu telah berubah!"
         })
-
-        // add pendapatan
-        if (req.body.statusOrder == "done") {
-            await SellerRevenue.findOneAndUpdate({
-                idSellerAccount: oneOrder.idSellerAccount
-            }, {
-                $inc: {
-                    sumSaldo: oneOrder.totalPayment
-                }
-            }, {
-                new: true,
-                upsert: true
-            })
-        }
 
         await oneNotification.save();
         return res.status(200).json({
@@ -1514,6 +1501,26 @@ export const postOneRevenueOrder = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Berhasil menambah data'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengambil data!'
+        });
+    }
+}
+
+export const getRevenueSum = async(req, res) => {
+    try {
+        const oneRevenue = await SellerRevenue.findOne({
+            idSellerAccount: req.params.idSellerAccount
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: oneRevenue
         });
     } catch (error) {
         console.log(error);

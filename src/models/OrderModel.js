@@ -36,6 +36,9 @@ export const OrderSchema = new Schema({
     courierType: {
         type: String
     },
+    resiCode: {
+        type: String
+    },
     courierCost: {
         type: Number
     },
@@ -70,6 +73,12 @@ export const OrderSchema = new Schema({
     //iterasi
     messageCancel: {
         type: String
+    },
+    acceptAt: {
+        type: Date
+    },
+    finishAt: {
+        type: Date
     },
     orderAt: {
         type: Date,

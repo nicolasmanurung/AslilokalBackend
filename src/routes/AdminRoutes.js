@@ -5,7 +5,10 @@ import {
     adminRegisterAccount,
     getShopRevenueRequest,
     getOneShopRevenueRequest,
-    putShopRevenueRequest
+    putShopRevenueRequest,
+    getAllOrderWithStatus,
+    putAdminStatusOrder,
+    getAllOrderPaymentRequired
 } from '../controllers/AdminController';
 
 const routes = async(app) => {
@@ -18,7 +21,7 @@ const routes = async(app) => {
     app.route('/admin/verify/shop/:idSeller')
         .put(loginRequiredAdmin, putStatusShop)
 
-    //
+    // Revenue
     app.route('/admin/revenue/all')
         .get(loginRequiredAdmin, getShopRevenueRequest)
 
@@ -27,6 +30,16 @@ const routes = async(app) => {
 
     app.route('/admin/revenue/:statusRevenue/:idRevenue')
         .put(loginRequiredAdmin, putShopRevenueRequest)
+
+    // Order
+    app.route('/admin/order/finish/all')
+        .get(loginRequiredAdmin, getAllOrderWithStatus)
+
+    app.route('/admin/order/paymentrequired/all')
+        .get(loginRequiredAdmin, getAllOrderPaymentRequired)
+
+    app.route('/admin/order/status/:idOrder')
+        .put(loginRequiredAdmin, putAdminStatusOrder)
 
 }
 

@@ -43,7 +43,8 @@ import {
     getAnalitikPemasukanByMonth,
     deleteVoucherById,
     getAllHistoryRevenueOrder,
-    postOneRevenueOrder
+    postOneRevenueOrder,
+    getRevenueSum
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -213,6 +214,9 @@ const routes = async(app) => {
 
     app.route('/seller/analitik/revenue/order')
         .post(loginRequiredSeller, postOneRevenueOrder);
+
+    app.route('/seller/analitik/revenue/total/:idSellerAccount')
+        .get(loginRequiredSeller, getRevenueSum)
 }
 
 export default routes;

@@ -4,10 +4,13 @@ import crypto from 'crypto';
 import { AdminAccountSchema } from '../models/AdminAccountModel';
 import { SellerAccountSchema } from '../models/SellerAccountModel';
 import { OrderRevenueSchema } from '../models/OrderRevenue';
+import { OrderSchema } from '../models/OrderModel';
 
 const AdminAccount = mongoose.model('AdminAccount', AdminAccountSchema);
 const SellerAccount = mongoose.model('SellerAccount', SellerAccountSchema);
 const OrderRevenue = mongoose.model('OrderRevenue', OrderRevenueSchema);
+const Order = mongoose.model('Order', OrderSchema);
+
 
 export const loginRequiredAdmin = async(req, res, next) => {
     if (req.user) {
@@ -188,6 +191,99 @@ export const putShopRevenueRequest = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengubah data'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getAllOrderWithStatus = async(req, res) => {
+    try {
+        const allOrder = await Order.find({
+            statusOrder: {
+                $in: ["delivered", "done"]
+            },
+            acceptAt: {
+                $gt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil',
+            result: allOrder
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getAllOrderPaymentRequired = async(req, res) => {
+    try {
+        const allOrder = await Order.find({
+            statusOrder: "paymentrequired",
+            acceptAt: {
+                $gt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil',
+            result: allOrder
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const putAdminStatusOrder = async(req, res) => {
+    try {
+        const oneOrder = await Order.findByIdAndUpdate(req.params.idOrder, {
+            $set: {
+                statusOrder: req.body.statusOrder
+            }
+        });
+
+        // add pendapatan
+        if (req.body.statusOrder == "finish") {
+            await SellerRevenue.findOneAndUpdate({
+                idSellerAccount: oneOrder.idSellerAccount
+            }, {
+                $inc: {
+                    sumSaldo: oneOrder.totalPayment
+                },
+                $set: {
+                    finishAt: new Date.now
+                }
+            }, {
+                new: true,
+                upsert: true
+            })
+
+            const oneNotification = new Notification({
+                idUser: oneOrder.idBuyerAccount,
+                statusNotification: req.body.statusOrder,
+                refId: req.params.idOrder,
+                isRead: "unread",
+                descNotification: "Penghasilanmu bertambah!"
+            })
+
+            await oneNotification.save();
+        }
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil'
         });
     } catch (error) {
         console.log(error);
