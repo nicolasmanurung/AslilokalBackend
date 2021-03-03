@@ -1454,7 +1454,7 @@ export const getAnalitikPemasukanByMonth = async(req, res) => {
         var maxMonth = parseInt(monthQuery) + 1
         const allTransaction = await Order.find({
             idSellerAccount: req.params.idSellerAccount,
-            statusOrder: "done",
+            statusOrder: "finish",
             orderAt: {
                 $gte: new Date(yearQuery + ',' + monthQuery),
                 $lt: new Date(yearQuery + ',' + maxMonth)
