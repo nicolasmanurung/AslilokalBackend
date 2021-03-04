@@ -819,8 +819,7 @@ export const getAllDebtorBySeller = async(req, res) => {
         const allDebtor = await Debtor.find({
             idSellerAccount: req.params.idSellerAccount,
             createAt: {
-                $gt: new Date(req.query.year + ',' + req.query.month),
-                $lt: new Date(Date.now)
+                $gt: new Date(req.query.year + ',' + req.query.month)
             }
         });
         return res.status(200).json({

@@ -22,7 +22,7 @@ export const DebtorSchema = new Schema({
         type: Boolean,
         default: false
     },
-    createAt:{
+    createAt: {
         type: Date,
         default: Date.now
     }
