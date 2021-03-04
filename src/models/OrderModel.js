@@ -9,6 +9,12 @@ export const OrderSchema = new Schema({
     idSellerAccount: {
         type: String
     },
+    nameBuyer: {
+        type: String
+    },
+    numberTelp: {
+        type: Number
+    },
     addressBuyer: {
         type: String
     },
