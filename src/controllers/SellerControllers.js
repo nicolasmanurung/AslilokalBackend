@@ -898,10 +898,10 @@ export const postOneVoucher = async(req, res) => {
 export const getVoucherBySeller = async(req, res) => {
     try {
         const findAllVoucher = await Voucher.find({
-            idSellerAccount: req.params.idSellerAccount,
-            validity: {
-                $gt: new Date(Date.now())
-            }
+            idSellerAccount: req.params.idSellerAccount
+                // validity: {
+                //     $gt: new Date(Date.now())
+                // }
         });
         return res.status(200).json({
             success: true,
