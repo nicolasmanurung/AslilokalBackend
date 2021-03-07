@@ -21,7 +21,7 @@ export const OrderRevenueSchema = new Schema({
         }
     },
     statusRevenue: {
-        // request, review, done
+        // request, done
         type: String
     },
     acceptAt: {
