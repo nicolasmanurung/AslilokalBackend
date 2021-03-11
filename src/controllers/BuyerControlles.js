@@ -635,11 +635,36 @@ export const getProductByBuyer = async(req, res) => {
             productCategory: req.query.type
         }, options);
 
+
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil data',
             result: allProduct
         });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getPopularProduct = async(req, res) => {
+    try {
+        var options = {
+            page: req.query.page,
+            limit: req.query.limit
+        }
+
+        const allProduct = await Product.paginate({}, options);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: allProduct
+        });
+
     } catch (error) {
         console.log(error);
         return res.status(401).json({

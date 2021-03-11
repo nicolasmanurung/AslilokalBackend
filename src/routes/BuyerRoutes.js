@@ -36,7 +36,8 @@ import {
     getOneReviewBuyer,
     getAllReviewFromShop,
     updateImgSelfBuyer,
-    jwtBuyerTesting
+    jwtBuyerTesting,
+    getPopularProduct
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -100,8 +101,12 @@ const routes = async(app) => {
         .get(getOneProductBuyer)
 
     // [Done]
+    // By Type
     app.route('/buyer/products')
         .get(getProductByBuyer)
+
+    app.route('/buyer/products/popular')
+        .get(getPopularProduct)
 
     // [Done]
     app.route('/buyer/products/search')

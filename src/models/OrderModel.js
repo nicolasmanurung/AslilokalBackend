@@ -60,6 +60,9 @@ export const OrderSchema = new Schema({
     totalPayment: {
         type: Number
     },
+    imgPayment: {
+        type: String
+    },
     // Belum Bayar, Dibayar, DiProses, Menunggu, Selesai
     statusOrder: {
         type: String
