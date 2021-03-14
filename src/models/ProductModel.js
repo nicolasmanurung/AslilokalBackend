@@ -16,6 +16,12 @@ export const ProductSchema = new Schema({
         // Sembako, Jasa, Kuliner, Fashion
         type: String
     },
+    umkmTags: {
+        type: String
+    },
+    promotionTags: [{
+        type: String
+    }],
     priceProduct: {
         type: String
     },

@@ -37,7 +37,8 @@ import {
     getAllReviewFromShop,
     updateImgSelfBuyer,
     jwtBuyerTesting,
-    getPopularProduct
+    getPopularProduct,
+    getProductCategorizeByUmkm
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -111,6 +112,9 @@ const routes = async(app) => {
     // [Done]
     app.route('/buyer/products/search')
         .get(getSearchProductByBuyer)
+
+    app.route('buyer/products/umkm')
+        .get(getProductCategorizeByUmkm)
 
     // Shop
 

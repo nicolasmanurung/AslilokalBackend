@@ -650,6 +650,26 @@ export const getProductByBuyer = async(req, res) => {
     }
 }
 
+export const getProductCategorizeByUmkm = async(req, res) => {
+    try {
+        const products = await Product.find({
+            umkmTags: req.query.umkm
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: products
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
 export const getPopularProduct = async(req, res) => {
     try {
         var options = {
