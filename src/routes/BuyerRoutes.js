@@ -113,7 +113,7 @@ const routes = async(app) => {
     app.route('/buyer/products/search')
         .get(getSearchProductByBuyer)
 
-    app.route('buyer/products/umkm')
+    app.route('/buyer/products/umkm')
         .get(getProductCategorizeByUmkm)
 
     // Shop

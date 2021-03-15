@@ -655,7 +655,6 @@ export const getProductCategorizeByUmkm = async(req, res) => {
         const products = await Product.find({
             umkmTags: req.query.umkm
         })
-
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil data',
