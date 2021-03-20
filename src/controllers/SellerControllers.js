@@ -1006,10 +1006,10 @@ export const getAllOrderSeller = async(req, res) => {
         // Ganti menjadi Date = query.date
         const allOrder = await Order.find({
             idSellerAccount: req.params.idSellerAccount,
-            statusOrder: req.query.status,
-            orderAt: {
-                $gt: new Date(Date.now() - 48 * 60 * 60 * 1000)
-            }
+            statusOrder: req.query.status
+                // orderAt: {
+                //     $gt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+                // }
         })
         return res.status(200).json({
             success: true,
