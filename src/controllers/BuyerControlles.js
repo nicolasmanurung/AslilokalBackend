@@ -904,6 +904,8 @@ export const postOneProductToCart = async(req, res) => {
                 addressShop: req.body.addressShop,
                 idProduct: req.body.idProduct,
                 imgProduct: req.body.imgProduct,
+                isLocalShop: req.body.isLocalShop,
+                nameProduct: req.body.nameProduct,
                 productPrice: req.body.productPrice,
                 qtyProduct: req.body.qtyProduct,
                 noteProduct: req.body.noteProduct
