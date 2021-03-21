@@ -16,8 +16,14 @@ export const CartBuyerSchema = new Schema({
     addressShop: {
         type: String
     },
+    isLocalShop: {
+        type: Boolean
+    },
     // Data Product
     idProduct: {
+        type: String
+    },
+    nameProduct: {
         type: String
     },
     // kuliner, sembako, dll
