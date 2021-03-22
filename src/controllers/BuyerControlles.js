@@ -1050,7 +1050,7 @@ export const getAllOrderBuyer = async(req, res) => {
     try {
         const allOrderBuyer = await Order.find({
             idBuyerAccount: req.params.idBuyerAccount,
-            statusOrder: req.body.statusOrder
+            statusOrder: req.query.statusOrder
         });
         return res.status(200).json({
             success: true,
