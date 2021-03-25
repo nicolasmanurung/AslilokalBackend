@@ -38,7 +38,8 @@ import {
     updateImgSelfBuyer,
     jwtBuyerTesting,
     getPopularProduct,
-    getProductCategorizeByUmkm
+    getProductCategorizeByUmkm,
+    editBiodataStatus
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -75,7 +76,7 @@ const routes = async(app) => {
 
     // [Done]
     app.route('/buyer/account')
-        .post(loginRequiredBuyer, postBuyerBiodata)
+        .post(loginRequiredBuyer, postBuyerBiodata, editBiodataStatus)
         //imgSelfBuyer - uploadSelfImgBuyer
 
     // [Done]

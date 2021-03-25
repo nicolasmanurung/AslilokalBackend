@@ -39,10 +39,10 @@ const Testing = mongoose.model('Testing', TestingSchema);
 const Notification = mongoose.model('Notification', NotificationSchema);
 // UPLOAD
 const uploadMultipleBiodata = uploadUsrImg.fields([{
-        name: 'imgKtpBuyer',
+        name: 'imgSelfBuyer',
         maxCount: 1
     }, {
-        name: 'imgSelfBuyer',
+        name: 'imgKtpBuyer',
         maxCount: 1
     }])
     // UPDATE
@@ -398,8 +398,7 @@ export const getTokenCodeBuyer = async(req, res) => {
     }
 }
 
-// Belum di Test
-export const postBuyerBiodata = async(req, res) => {
+export const postBuyerBiodata = async(req, res, next) => {
     try {
         uploadMultipleBiodata(req, res, err => {
             if (err) {
@@ -409,14 +408,7 @@ export const postBuyerBiodata = async(req, res) => {
                     message: 'Image upload error!'
                 });
             } else {
-                let oneBuyerBiodata = new BuyerBiodata(req.body);
-                oneBuyerBiodata.imgSelfBuyer = req.files['imgSelfBuyer'][0].key;
-                oneBuyerBiodata.imgKtpBuyer = req.files['imgKtpBuyer'][0].key;
-                oneBuyerBiodata.save();
-                return res.status(200).json({
-                    success: true,
-                    message: 'Berhasil menambahkan'
-                });
+                next();
             }
         })
     } catch (error) {
@@ -425,6 +417,32 @@ export const postBuyerBiodata = async(req, res) => {
             success: false,
             message: 'Maaf ada gangguan server!'
         });
+    }
+}
+
+export const editBiodataStatus = async(req, res) => {
+    try {
+        let oneBuyerBiodata = new BuyerBiodata(req.body);
+        oneBuyerBiodata.imgSelfBuyer = req.files['imgSelfBuyer'][0].key;
+        //oneBuyerBiodata.imgKtpBuyer = req.files['imgKtpBuyer'][0].key;
+        await oneBuyerBiodata.save();
+
+        await BuyerAccount.findByIdAndUpdate(req.body.idBuyerAccount, {
+            $set: {
+                biodataVerifyStatus: true
+            }
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambahkan'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        })
     }
 }
 
