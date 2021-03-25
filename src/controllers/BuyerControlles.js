@@ -211,6 +211,7 @@ export const buyerLoginAccount = async(req, res) => {
                 return res.status(200).json({
                     success: true,
                     emailVerifyStatus: findBuyerAccount.emailVerifyStatus,
+                    biodataVerifyStatus: findBuyerAccount.biodataVerifyStatus,
                     username: findBuyerAccount._id,
                     token: jwt.sign({
                         emailBuyer: findBuyerAccount.emailBuyer,
