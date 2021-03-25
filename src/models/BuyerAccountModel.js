@@ -14,5 +14,9 @@ export const BuyerAccountSchema = new Schema({
     emailVerifyStatus: {
         type: Boolean,
         default: false
+    },
+    biodataVerifyStatus: {
+        type: Boolean,
+        default: false
     }
 });
