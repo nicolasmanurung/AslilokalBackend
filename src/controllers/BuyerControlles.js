@@ -232,9 +232,9 @@ export const buyerLoginAccount = async(req, res) => {
 export const postResubmitTokenBuyer = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
-            emailAccount: req.body.emailBuyer
+            emailAccount: req.user.emailBuyer
         });
-        const emailAccount = req.body.emailBuyer
+        const emailAccount = req.user.emailBuyer
         let tokenVerify = Math.random().toString(16).substring(9);
         if (!oneToken) {
 
@@ -245,7 +245,7 @@ export const postResubmitTokenBuyer = async(req, res) => {
             await token.save();
             const data = {
                 from: 'Aslilokal Account <no-reply@aslilokal.com>',
-                to: req.body.emailBuyer,
+                to: req.user.emailBuyer,
                 subject: 'Email verifikasi',
                 html: `<table dir="ltr">
                 <tbody>
@@ -293,7 +293,7 @@ export const postResubmitTokenBuyer = async(req, res) => {
             tokenVerify = oneToken.tokenVerify;
             const data = {
                 from: 'Aslilokal Account <no-reply@aslilokal.com>',
-                to: req.body.emailBuyer,
+                to: req.user.emailBuyer,
                 subject: 'Email verifikasi',
                 html: `<table dir="ltr">
                 <tbody>
@@ -305,7 +305,7 @@ export const postResubmitTokenBuyer = async(req, res) => {
                     </tr>
                     <tr>
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                            Gunakan kode keamanan berikut untuk akun <span class="il">Aslilokal</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + req.body.emailBuyer + `" target="_blank">` + req.body.emailBuyer + `</a>.
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Aslilokal</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + req.user.emailBuyer + `" target="_blank">` + req.user.emailBuyer + `</a>.
                         </td>
                     </tr>
                     <tr>
@@ -351,14 +351,14 @@ export const postResubmitTokenBuyer = async(req, res) => {
 export const getTokenCodeBuyer = async(req, res) => {
     try {
         const oneToken = await TokenAccount.findOne({
-            emailAccount: req.body.emailBuyer
+            emailAccount: req.user.emailBuyer
         });
 
         if (oneToken) {
-            if (oneToken.tokenVerify === req.body.tokenVerify) {
+            if (oneToken.tokenVerify === req.query.tokenVerify) {
                 try {
                     await BuyerAccount.findOneAndUpdate({
-                        emailBuyer: req.body.emailBuyer
+                        emailBuyer: req.user.emailBuyer
                     }, {
                         $set: {
                             emailVerifyStatus: true
