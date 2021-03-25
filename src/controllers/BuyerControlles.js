@@ -1039,6 +1039,20 @@ export const getKeranjangBuyer = async(req, res) => {
 // Belum di Test
 export const postOneOrderBuyer = async(req, res) => {
     try {
+        var arrayIdProduct = [];
+
+        for (let item of req.body.products) {
+            arrayIdProduct.push(item.idProduct)
+        }
+        //console.log(arrayIdProduct)
+
+        await CartBuyer.deleteMany({
+            idBuyerAccount: req.body.idBuyerAccount,
+            idProduct: {
+                $in: arrayIdProduct
+            }
+        })
+
         const oneOrder = new Order(req.body);
         await oneOrder.save()
 
