@@ -15,7 +15,8 @@ import { ReviewSchema } from '../models/ReviewModel';
 import { TestingSchema } from '../models/TestingModel';
 import { NotificationSchema } from '../models/NotificationModel';
 import {
-    uploadUsrImg
+    uploadUsrImg,
+    uploadAttachOrder
 } from '../configs/upload';
 
 const mailgun = require("mailgun-js");
@@ -39,13 +40,16 @@ const Testing = mongoose.model('Testing', TestingSchema);
 const Notification = mongoose.model('Notification', NotificationSchema);
 // UPLOAD
 const uploadMultipleBiodata = uploadUsrImg.fields([{
-        name: 'imgSelfBuyer',
-        maxCount: 1
-    }, {
-        name: 'imgKtpBuyer',
-        maxCount: 1
-    }])
-    // UPDATE
+    name: 'imgSelfBuyer',
+    maxCount: 1
+}, {
+    name: 'imgKtpBuyer',
+    maxCount: 1
+}])
+
+const uploadAttachmentOrder = uploadAttachOrder.single('orderAttachmentImg')
+
+// UPDATE
 const imgSelfBuyerUpdate = uploadUsrImg.single('imgSelfBuyerUpdate');
 
 export const loginRequiredBuyer = async(req, res, next) => {
@@ -1287,6 +1291,48 @@ export const getAllReviewFromShop = async(req, res) => {
     }
 }
 
+export const uploadOrderAttachment = async(req, res, next) => {
+    try {
+        uploadAttachmentOrder(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                next();
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const putOrderAttachment = async(req, res) => {
+    try {
+        await Order.findByIdAndUpdate(req.params.idOrder, {
+            $set: {
+                imgPayment: req.file.key
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil menambahkan'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
 // Testing
 export const postTesting = async(req, res) => {
     try {
@@ -1308,6 +1354,7 @@ export const postTesting = async(req, res) => {
         });
     }
 }
+
 
 export const updateImgSelfBuyer = async(req, res, next) => {
         try {

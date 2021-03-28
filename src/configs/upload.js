@@ -47,6 +47,23 @@ export const uploadUsrImg = multer({
     })
 });
 
+export const uploadAttachOrder = multer({
+    fileFilter,
+    storage: multerS3({
+        s3: s3,
+        bucket: 'aslilokal-payment-receipts',
+        acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        metadata: function(req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function(req, file, cb) {
+            let salt = crypto.randomBytes(16).toString('hex');
+            cb(null, `${Date.now().toString()}-${salt}`);
+        }
+    })
+})
+
 
 // UPDATE
 export const uploadProductImg = multer({

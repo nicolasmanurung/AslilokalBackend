@@ -39,7 +39,9 @@ import {
     jwtBuyerTesting,
     getPopularProduct,
     getProductCategorizeByUmkm,
-    editBiodataStatus
+    editBiodataStatus,
+    putOrderAttachment,
+    uploadOrderAttachment
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -174,6 +176,10 @@ const routes = async(app) => {
     // [Done]
     app.route('/buyer/order/finish/:idOrder')
         .put(loginRequiredBuyer, putFinishOrder)
+
+    //
+    app.route('/buyer/order/attachment/:idOrder')
+        .put(loginRequiredBuyer, uploadOrderAttachment, putOrderAttachment)
 
     // Review
     // [Done]
