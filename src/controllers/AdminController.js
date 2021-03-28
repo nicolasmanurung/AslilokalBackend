@@ -5,12 +5,15 @@ import { AdminAccountSchema } from '../models/AdminAccountModel';
 import { SellerAccountSchema } from '../models/SellerAccountModel';
 import { OrderRevenueSchema } from '../models/OrderRevenue';
 import { OrderSchema } from '../models/OrderModel';
+import { SellerShopSchema } from '../models/SellerShopModel';
+import { ProductSchema } from '../models/ProductModel';
 
 const AdminAccount = mongoose.model('AdminAccount', AdminAccountSchema);
 const SellerAccount = mongoose.model('SellerAccount', SellerAccountSchema);
 const OrderRevenue = mongoose.model('OrderRevenue', OrderRevenueSchema);
 const Order = mongoose.model('Order', OrderSchema);
-
+const SellerShop = mongoose.model('SellerShop', SellerShopSchema);
+const Product = mongoose.model('Product', ProductSchema);
 
 export const loginRequiredAdmin = async(req, res, next) => {
     if (req.user) {
@@ -119,8 +122,7 @@ export const putStatusShop = async(req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: 'Berhasil di update',
-            result: oneShop
+            message: 'Berhasil di update'
         });
     } catch (error) {
         console.log(error);
@@ -284,6 +286,59 @@ export const putAdminStatusOrder = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Berhasil'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getAllShop = async(req, res) => {
+    try {
+        const allShop = await SellerAccount.find({
+            shopVerifyStatus: req.query.shopVerifyStatus
+        }, {
+            passSeller: 0
+        });
+
+
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil',
+            result: allShop
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const putAslilokalShop = async(req, res) => {
+    try {
+        await SellerShop.updateOne({
+            idSellerAccount: req.params.idSellerAccount
+        }, {
+            $set: {
+                shopTypeStatus: req.body.shopUmkmStatus
+            }
+        });
+
+        await Product.updateMany({
+            idSellerAccount: req.params.idSellerAccount
+        }, {
+            $set: {
+                umkmTags: req.body.shopUmkmStatus
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengassign toko'
         });
     } catch (error) {
         console.log(error);

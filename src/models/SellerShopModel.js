@@ -45,6 +45,9 @@ export const SellerShopSchema = new Schema({
     postalCode: {
         type: String
     },
+    shopTypeStatus: {
+        type: String
+    },
     // Next Update
     // trackingGpsSeller:{
     //     type: String

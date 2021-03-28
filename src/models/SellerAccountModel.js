@@ -20,7 +20,7 @@ export const SellerAccountSchema = new Schema({
         default: false
     },
     shopTypeStatus: {
-        //aslitaput, aslitapteng, pro, dll
+        //aslitaput, aslitapteng, pro, basic, dll
         type: String
     },
     validityTypeStatus: {

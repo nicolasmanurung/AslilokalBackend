@@ -648,6 +648,7 @@ export const getOneProductBuyer = async(req, res) => {
 export const getProductByBuyer = async(req, res) => {
     try {
         var options = {
+            sort: { createAt: -1 },
             page: req.query.page,
             limit: req.query.limit
         }
@@ -692,6 +693,7 @@ export const getProductCategorizeByUmkm = async(req, res) => {
 export const getPopularProduct = async(req, res) => {
     try {
         var options = {
+            sort: { createAt: -1 },
             page: req.query.page,
             limit: req.query.limit
         }
