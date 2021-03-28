@@ -230,10 +230,12 @@ export const getAllOrderWithStatus = async(req, res) => {
 export const getAllOrderPaymentRequired = async(req, res) => {
     try {
         const allOrder = await Order.find({
-            statusOrder: "paymentrequired",
-            acceptAt: {
-                $gt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-            }
+            statusOrder: "paymentrequired"
+                // orderAt: {
+                //     $gt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+                // }
+        }).sort({
+            orderAt: -1
         })
         return res.status(200).json({
             success: true,
