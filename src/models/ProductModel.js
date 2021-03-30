@@ -40,6 +40,10 @@ export const ProductSchema = new Schema({
     descProduct: {
         type: String
     },
+    sumCountView: {
+        type: Number,
+        default: 0
+    },
     isAvailable: {
         type: Boolean,
         default: true

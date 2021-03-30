@@ -35,15 +35,26 @@ export const SellerShopSchema = new Schema({
     imgShop: {
         type: String
     },
-    freeOngkirLimitKm: {
-        type: Boolean
+    rajaOngkir: {
+        city_id: {
+            type: String
+        },
+        province_id: {
+            type: String
+        },
+        province: {
+            type: String
+        },
+        city_name: {
+            type: String
+        },
+        postal_code: {
+            type: String
+        }
     },
     addressShop: {
         type: String,
         required: true
-    },
-    postalCode: {
-        type: String
     },
     shopTypeStatus: {
         type: String
@@ -61,6 +72,10 @@ export const SellerShopSchema = new Schema({
     },
     closeTime: {
         type: String
+    },
+    sumCountView: {
+        type: Number,
+        default: 0
     },
     sumFollowers: {
         type: Number,

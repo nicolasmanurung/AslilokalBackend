@@ -14,12 +14,26 @@ export const BuyerBiodataSchema = new Schema({
         type: String,
         required: true
     },
+    rajaOngkir: {
+        city_id: {
+            type: String
+        },
+        province_id: {
+            type: String
+        },
+        province: {
+            type: String
+        },
+        city_name: {
+            type: String
+        },
+        postal_code: {
+            type: String
+        }
+    },
     addressBuyer: {
         type: String,
         required: true
-    },
-    postalCode: {
-        type: String
     },
     // Next update
     // addressTracking : {
