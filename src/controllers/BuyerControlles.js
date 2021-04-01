@@ -160,7 +160,15 @@ export const buyerRegisterAccount = async(req, res) => {
                             await newBuyer.save();
                             return res.status(200).json({
                                 success: true,
-                                message: 'Akun berhasil dibuat'
+                                message: 'Akun berhasil dibuat',
+                                emailVerifyStatus: newBuyer.emailVerifyStatus,
+                                biodataVerifyStatus: newBuyer.biodataVerifyStatus,
+                                username: newBuyer._id,
+                                token: jwt.sign({
+                                    emailBuyer: newBuyer.emailBuyer,
+                                    _id: newBuyer._id
+                                }, "KODELAPOAPI")
+
                             });
                         } catch (error) {
                             console.log(error)
