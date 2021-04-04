@@ -620,6 +620,7 @@ export const putShopBiodata = async(req, res) => {
             isTwentyFourHours,
             openTime,
             closeTime,
+            postalCodeInput,
         } = req.body
 
         await SellerShop.findOneAndUpdate({
@@ -634,6 +635,7 @@ export const putShopBiodata = async(req, res) => {
             isTwentyFourHours,
             openTime,
             closeTime,
+            postalCodeInput,
             rajaOngkir: req.body.rajaOngkir
         });
 
@@ -1389,7 +1391,7 @@ export const fillData = async(req, res) => {
 
         } = req.body;
 
-        var dataUpdate = await SellerBiodata.findOneAndUpdate({
+        await SellerBiodata.findOneAndUpdate({
             idSellerAccount: req.body.idSellerAccount
         }, {
             $set: {
