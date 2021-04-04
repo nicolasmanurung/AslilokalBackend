@@ -620,10 +620,9 @@ export const putShopBiodata = async(req, res) => {
             isTwentyFourHours,
             openTime,
             closeTime,
-            sumFollowers
         } = req.body
 
-        let oneShopBiodata = await SellerShop.findOneAndUpdate({
+        await SellerShop.findOneAndUpdate({
             idSellerAccount: req.params.idSellerAccount
         }, {
             nameShop,
@@ -635,12 +634,12 @@ export const putShopBiodata = async(req, res) => {
             isTwentyFourHours,
             openTime,
             closeTime,
-            sumFollowers
+            rajaOngkir: req.body.rajaOngkir
         });
+
         return res.status(200).json({
             success: true,
-            message: 'Berhasil mengambil',
-            result: oneShopBiodata
+            message: 'Berhasil mengambil'
         });
     } catch (error) {
         console.log(error);
