@@ -35,6 +35,12 @@ export const BuyerBiodataSchema = new Schema({
         type: String,
         required: true
     },
+    postalCodeInput: {
+        type: String
+    },
+    nameAcceptPackage: {
+        type: String
+    },
     // Next update
     // addressTracking : {
     //     type: Unknown

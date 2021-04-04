@@ -419,21 +419,23 @@ export const getTokenCodeSeller = async(req, res) => {
 }
 
 
-// Belum di Test
-export const postSellerBiodata = async(req, res) => {
-    try {
-        return res.status(200).json({
-            success: true,
-            message: 'Berhasil menambahkan'
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(401).json({
-            success: false,
-            message: 'Maaf ada gangguan server!'
-        });
-    }
-}
+// // Belum di Test
+// export const postSellerBiodata = async(req, res) => {
+//     try {
+
+
+//         return res.status(200).json({
+//             success: true,
+//             message: 'Berhasil menambahkan'
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(401).json({
+//             success: false,
+//             message: 'Maaf ada gangguan server!'
+//         });
+//     }
+// }
 
 export const putSellerShopRequestRegistration = async(req, res) => {
     try {
@@ -558,9 +560,15 @@ export const fillShopData = async(req, res) => {
                 isDelivery: req.body.isDelivery,
                 imgShop: req.file.key,
                 addressShop: req.body.addressShop,
+                postalCodeInput: req.body.postalCodeInput,
                 isTwentyFourHours: req.body.isTwentyFourHours,
                 openTime: req.body.openTime,
-                closeTime: req.body.closeTime
+                closeTime: req.body.closeTime,
+                "rajaOngkir.city_id": req.body.city_id,
+                "rajaOngkir.province_id": req.body.province_id,
+                "rajaOngkir.province": req.body.province,
+                "rajaOngkir.city_name": req.body.city_name,
+                "rajaOngkir.postal_code": req.body.postal_code
             }
         }, {
             new: true,
@@ -1378,7 +1386,8 @@ export const fillData = async(req, res) => {
                 ktpImg = req.files['ktpImgSeller'][0].key,
                 ovoNumber = req.body.ovoNumber,
                 danaNumber = req.body.danaNumber,
-                gopayNumber = req.body.gopayNumber
+                gopayNumber = req.body.gopayNumber,
+
         } = req.body;
 
         var dataUpdate = await SellerBiodata.findOneAndUpdate({

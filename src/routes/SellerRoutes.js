@@ -4,7 +4,7 @@ import {
     sellerLoginAccount,
     postResubmitTokenSeller,
     getTokenCodeSeller,
-    postSellerBiodata,
+    //postSellerBiodata,
     getSellerBiodata,
     putSellerBiodata,
     postShopBiodata,

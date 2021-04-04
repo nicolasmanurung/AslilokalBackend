@@ -56,6 +56,9 @@ export const SellerShopSchema = new Schema({
         type: String,
         required: true
     },
+    postalCodeInput: {
+        type: String
+    },
     shopTypeStatus: {
         type: String
     },
