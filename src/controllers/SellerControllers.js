@@ -564,11 +564,11 @@ export const fillShopData = async(req, res) => {
                 isTwentyFourHours: req.body.isTwentyFourHours,
                 openTime: req.body.openTime,
                 closeTime: req.body.closeTime,
-                "rajaOngkir.city_id": req.body.city_id,
-                "rajaOngkir.province_id": req.body.province_id,
-                "rajaOngkir.province": req.body.province,
-                "rajaOngkir.city_name": req.body.city_name,
-                "rajaOngkir.postal_code": req.body.postal_code
+                'rajaOngkir.city_id': req.body.city_id,
+                'rajaOngkir.province_id': req.body.province_id,
+                'rajaOngkir.province': req.body.province,
+                'rajaOngkir.city_name': req.body.city_name,
+                'rajaOngkir.postal_code': req.body.postal_code
             }
         }, {
             new: true,
