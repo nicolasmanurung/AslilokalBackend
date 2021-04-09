@@ -942,7 +942,8 @@ export const postOneProductToCart = async(req, res) => {
                 nameProduct: req.body.nameProduct,
                 productPrice: req.body.productPrice,
                 qtyProduct: req.body.qtyProduct,
-                noteProduct: req.body.noteProduct
+                noteProduct: req.body.noteProduct,
+                productWeight: req.body.productWeight
             }
             const newProductToCart = new CartBuyer(product);
             await newProductToCart.save();
