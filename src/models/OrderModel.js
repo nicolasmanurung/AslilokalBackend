@@ -36,6 +36,9 @@ export const OrderSchema = new Schema({
         },
         noteProduct: {
             type: String
+        },
+        productWeight: {
+            type: Number
         }
     }],
     // seller, jne, jnt, dll

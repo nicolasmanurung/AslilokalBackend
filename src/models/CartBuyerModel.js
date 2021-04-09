@@ -41,5 +41,8 @@ export const CartBuyerSchema = new Schema({
     },
     noteProduct: {
         type: String
+    },
+    productWeight: {
+        type: Number
     }
 });
