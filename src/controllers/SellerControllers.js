@@ -638,7 +638,6 @@ export const putShopBiodata = async(req, res) => {
             postalCodeInput,
             rajaOngkir: req.body.rajaOngkir
         });
-
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil'

@@ -492,20 +492,22 @@ export const putBuyerBiodata = async(req, res) => {
         const {
             nameBuyer,
             noTelpBuyer,
-            addressBuyer
+            addressBuyer,
+            postalCodeInput
         } = req.body;
 
-        let oneBiodata = await BuyerBiodata.findOneAndUpdate({
+        await BuyerBiodata.findOneAndUpdate({
             idBuyerAccount: req.params.idBuyerAccount
         }, {
             nameBuyer,
             noTelpBuyer,
-            addressBuyer
+            addressBuyer,
+            postalCodeInput,
+            rajaOngkir: req.body.rajaOngkir
         });
         return res.status(200).json({
             success: true,
-            message: 'Berhasil mengambil',
-            result: oneBiodata
+            message: 'Berhasil mengambil'
         });
     } catch (error) {
         console.log(error);
