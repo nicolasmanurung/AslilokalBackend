@@ -28,10 +28,10 @@ export const SellerShopSchema = new Schema({
         type: Boolean,
         required: true
     },
-    // isShopFreeDelivery:{
-    //     type: Boolean,
-
-    // },
+    isShopFreeDelivery: {
+        type: Boolean,
+        default: false
+    },
     // isPayLater: {
     //     type: Boolean,
     //     required: true
