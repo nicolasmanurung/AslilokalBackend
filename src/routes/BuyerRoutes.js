@@ -139,7 +139,7 @@ const routes = async(app) => {
         .get(getOneVoucherInfo)
 
     // [Done]
-    app.route('/buyer/vouchers')
+    app.route('/buyer/vouchers/shop/:idSellerAccount')
         .get(getVoucherActiveFromShop)
 
     // Notification

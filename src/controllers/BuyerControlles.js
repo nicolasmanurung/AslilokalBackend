@@ -858,7 +858,7 @@ export const getOneVoucherInfo = async(req, res) => {
 export const getVoucherActiveFromShop = async(req, res) => {
     try {
         const findAllActiveVoucher = await Voucher.find({
-            idSellerAccount: req.body.idSellerAccount,
+            idSellerAccount: req.params.idSellerAccount,
             validity: {
                 $gte: Date.now()
             }
