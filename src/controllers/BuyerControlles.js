@@ -866,7 +866,7 @@ export const getVoucherActiveFromShop = async(req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil data',
-            findAllActiveVoucher
+            result: findAllActiveVoucher
         });
     } catch (error) {
         console.log(error);

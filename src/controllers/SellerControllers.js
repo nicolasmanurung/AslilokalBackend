@@ -1548,3 +1548,15 @@ export const getRevenueSum = async(req, res) => {
         });
     }
 }
+
+export const sendFCMTesting = async(req, res) => {
+    try {
+
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengambil data!'
+        });
+    }
+}
