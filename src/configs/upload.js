@@ -64,6 +64,22 @@ export const uploadAttachOrder = multer({
     })
 })
 
+export const updateAttachOrder = multer({
+    fileFilter,
+    storage: multerS3({
+        s3: s3,
+        bucket: 'aslilokal-payment-receipts',
+        acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        metadata: function(req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function(req, file, cb) {
+            cb(null, `${req.body.imgKey}`);
+        }
+    })
+})
+
 
 // UPDATE
 export const uploadProductImg = multer({

@@ -16,7 +16,8 @@ import { TestingSchema } from '../models/TestingModel';
 import { NotificationSchema } from '../models/NotificationModel';
 import {
     uploadUsrImg,
-    uploadAttachOrder
+    uploadAttachOrder,
+    updateAttachOrder
 } from '../configs/upload';
 
 const mailgun = require("mailgun-js");
@@ -51,6 +52,7 @@ const uploadAttachmentOrder = uploadAttachOrder.single('orderAttachmentImg')
 
 // UPDATE
 const imgSelfBuyerUpdate = uploadUsrImg.single('imgSelfBuyerUpdate');
+const imgUpdateOrderEvidance = updateAttachOrder.single("orderAttachmentImg");
 
 export const loginRequiredBuyer = async(req, res, next) => {
     if (req.user) {
@@ -1299,6 +1301,27 @@ export const getAllReviewFromShop = async(req, res) => {
             success: false,
             message: 'Maaf ada gangguan server!'
         });
+    }
+}
+
+export const updateOrderAttachment = async(req, res) => {
+    try {
+        imgUpdateOrderEvidance(req, res, err => {
+            if (err) {
+                console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Image upload error!'
+                });
+            } else {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Berhasil mengupdate'
+                });
+            }
+        })
+    } catch (error) {
+
     }
 }
 

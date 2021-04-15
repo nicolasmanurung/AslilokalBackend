@@ -41,7 +41,8 @@ import {
     getProductCategorizeByUmkm,
     editBiodataStatus,
     putOrderAttachment,
-    uploadOrderAttachment
+    uploadOrderAttachment,
+    updateOrderAttachment
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -179,7 +180,9 @@ const routes = async(app) => {
 
     //
     app.route('/buyer/order/attachment/:idOrder')
-        .put(loginRequiredBuyer, uploadOrderAttachment, putOrderAttachment)
+        .post(loginRequiredBuyer, uploadOrderAttachment, putOrderAttachment)
+        .put(loginRequiredBuyer, updateOrderAttachment)
+
 
     // Review
     // [Done]
