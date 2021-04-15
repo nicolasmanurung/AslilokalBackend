@@ -1377,7 +1377,10 @@ export const updateImgSelfBuyer = async(req, res, next) => {
                         message: 'Image upload error!'
                     });
                 } else {
-                    next();
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Berhasil mengupdate'
+                    });
                 }
             })
         } catch (error) {
