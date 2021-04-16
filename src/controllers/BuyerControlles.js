@@ -1321,7 +1321,11 @@ export const updateOrderAttachment = async(req, res) => {
             }
         })
     } catch (error) {
-
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Gagal mengupdate gambar!'
+        });
     }
 }
 
