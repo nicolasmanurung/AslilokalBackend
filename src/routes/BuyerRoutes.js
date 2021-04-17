@@ -42,7 +42,8 @@ import {
     editBiodataStatus,
     putOrderAttachment,
     uploadOrderAttachment,
-    updateOrderAttachment
+    updateOrderAttachment,
+    getProductByShopId
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -119,6 +120,9 @@ const routes = async(app) => {
 
     app.route('/buyer/products/umkm')
         .get(getProductCategorizeByUmkm)
+
+    app.route('/buyer/products/shop')
+        .get(getProductByShopId)
 
     // Shop
 

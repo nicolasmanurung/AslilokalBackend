@@ -276,7 +276,7 @@ export const putAdminStatusOrder = async(req, res) => {
             })
 
             const oneNotification = new Notification({
-                idUser: oneOrder.idBuyerAccount,
+                idUser: oneOrder.idSellerAccount,
                 statusNotification: req.body.statusOrder,
                 refId: req.params.idOrder,
                 isRead: "unread",
@@ -284,7 +284,18 @@ export const putAdminStatusOrder = async(req, res) => {
             })
 
             await oneNotification.save();
+
+        } else if (req.body.statusOrder == "acceptrequired") {
+            const oneNotification = new Notification({
+                idUser: req.body.idSellerAccount,
+                statusNotification: "order",
+                refId: req.params.idOrder,
+                isRead: "unread",
+                descNotification: `Ada orderan baru nih...`
+            });
+            await oneNotification.save();
         }
+
         return res.status(200).json({
             success: true,
             message: 'Berhasil'

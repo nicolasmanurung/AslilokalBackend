@@ -672,11 +672,29 @@ export const getProductByBuyer = async(req, res) => {
             productCategory: req.query.type
         }, options);
 
-
         return res.status(200).json({
             success: true,
             message: 'Berhasil mengambil data',
             result: allProduct
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getProductByShopId = async(req, res) => {
+    try {
+        const allProducts = await Product.find({
+            idSellerAccount: req.query.shop
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: allProducts
         });
     } catch (error) {
         console.log(error);
@@ -1075,15 +1093,15 @@ export const postOneOrderBuyer = async(req, res) => {
         const oneOrder = new Order(req.body);
         await oneOrder.save()
 
-        const oneNotification = new Notification({
-            idUser: req.body.idSellerAccount,
-            statusNotification: "order",
-            refId: oneOrder._id,
-            isRead: "unread",
-            descNotification: `Ada orderan baru nih...`
-        });
+        // const oneNotification = new Notification({
+        //     idUser: req.body.idSellerAccount,
+        //     statusNotification: "order",
+        //     refId: oneOrder._id,
+        //     isRead: "unread",
+        //     descNotification: `Ada orderan baru nih...`
+        // });
+        // await oneNotification.save();
 
-        await oneNotification.save();
         await oneOrder.save();
         return res.status(200).json({
             success: true,
