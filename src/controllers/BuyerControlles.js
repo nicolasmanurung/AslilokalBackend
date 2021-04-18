@@ -705,6 +705,27 @@ export const getProductByShopId = async(req, res) => {
     }
 }
 
+export const getProductShopByName = async(req, res) => {
+    try {
+        var query = new RegExp(req.query.name, 'i');
+        const allProducts = await Product.find({
+            idSellerAccount: req.query.shop,
+            nameProduct: query
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: allProducts
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
 export const getProductCategorizeByUmkm = async(req, res) => {
     try {
         const products = await Product.find({

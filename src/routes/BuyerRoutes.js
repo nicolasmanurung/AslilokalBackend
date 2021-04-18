@@ -43,7 +43,8 @@ import {
     putOrderAttachment,
     uploadOrderAttachment,
     updateOrderAttachment,
-    getProductByShopId
+    getProductByShopId,
+    getProductShopByName
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -123,6 +124,9 @@ const routes = async(app) => {
 
     app.route('/buyer/products/shop')
         .get(getProductByShopId)
+
+    app.route('/buyer/products/shop/search')
+        .get(getProductShopByName)
 
     // Shop
 
