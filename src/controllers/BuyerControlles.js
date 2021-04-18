@@ -778,16 +778,26 @@ export const getSearchProductByBuyer = async(req, res) => {
             page: req.query.page,
             limit: req.query.limit
         };
-        const allProduct = await Product.paginate({
-            productCategory: req.query.type,
-            nameProduct: query
-        }, options);
-
-        return res.status(200).json({
-            success: true,
-            message: 'Berhasil mengambil data',
-            result: allProduct
-        });
+        if (req.query.type == "all") {
+            const allProduct = await Product.paginate({
+                nameProduct: query
+            }, options);
+            return res.status(200).json({
+                success: true,
+                message: 'Berhasil mengambil data',
+                result: allProduct
+            });
+        } else {
+            const allProduct = await Product.paginate({
+                productCategory: req.query.type,
+                nameProduct: query
+            }, options);
+            return res.status(200).json({
+                success: true,
+                message: 'Berhasil mengambil data',
+                result: allProduct
+            });
+        }
     } catch (error) {
         console.log(error);
         return res.status(401).json({
