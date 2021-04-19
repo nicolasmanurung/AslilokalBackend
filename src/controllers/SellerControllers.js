@@ -1058,7 +1058,7 @@ export const putStatusOrder = async(req, res) => {
         await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
                 statusOrder: req.body.statusOrder,
-                acceptAt: new Date.now
+                acceptAt: new Date.now()
             }
         });
 
