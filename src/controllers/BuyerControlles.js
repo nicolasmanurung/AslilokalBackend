@@ -1015,7 +1015,17 @@ export const getAllLiveCart = async(req, res) => {
             idBuyerAccount: req.params.idBuyerAccount
         });
 
-        var allIdProduct = keranjang.products;
+        var allIdProduct = [];
+
+        if (keranjang) {
+            allIdProduct = keranjang.products;
+        } else {
+            return res.status(200).json({
+                success: true,
+                message: 'Data berhasil di ambil...',
+                result: []
+            });
+        }
 
         const allProductInKeranjang = await Product.find({
             '_id': {
