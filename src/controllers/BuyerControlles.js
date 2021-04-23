@@ -14,6 +14,7 @@ import { OrderSchema } from '../models/OrderModel';
 import { ReviewSchema } from '../models/ReviewModel';
 import { TestingSchema } from '../models/TestingModel';
 import { NotificationSchema } from '../models/NotificationModel';
+import { LiveCartBuyerSchema } from '../models/LiveCartBuyer';
 import {
     uploadUsrImg,
     uploadAttachOrder,
@@ -39,6 +40,7 @@ const Order = mongoose.model('Order', OrderSchema);
 const Review = mongoose.model('Review', ReviewSchema);
 const Testing = mongoose.model('Testing', TestingSchema);
 const Notification = mongoose.model('Notification', NotificationSchema);
+const LiveCartBuyer = mongoose.model('LiveCartBuyer', LiveCartBuyerSchema);
 // UPLOAD
 const uploadMultipleBiodata = uploadUsrImg.fields([{
     name: 'imgSelfBuyer',
@@ -970,6 +972,93 @@ export const getNotificationBuyer = async(req, res) => {
     }
 }
 
+export const postOneProductToCartLive = async(req, res) => {
+    try {
+        const oneProductToCart = await LiveCartBuyer.findOne({
+            idBuyerAccount: req.params.idBuyerAccount,
+            products: {
+                $in: [req.body.idProduct]
+            }
+        });
+
+        if (oneProductToCart) {
+            return res.status(200).json({
+                success: false,
+                message: 'Product sudah di keranjang nih!'
+            });
+        } else if (!oneProductToCart) {
+            await LiveCartBuyer.findOneAndUpdate({
+                idBuyerAccount: req.params.idBuyerAccount
+            }, {
+                $push: {
+                    products: req.body.idProduct
+                }
+            }, { new: true, upsert: true })
+
+            return res.status(200).json({
+                success: true,
+                message: 'Product sudah dimasukkan ke keranjang!'
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getAllLiveCart = async(req, res) => {
+    try {
+        const keranjang = await LiveCartBuyer.findOne({
+            idBuyerAccount: req.params.idBuyerAccount
+        });
+
+        var allIdProduct = keranjang.products;
+
+        const allProductInKeranjang = await Product.find({
+            '_id': {
+                $in: allIdProduct
+            }
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Data berhasil di ambil...',
+            result: allProductInKeranjang
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const deleteOneProductCart = async(req, res) => {
+    try {
+        await LiveCartBuyer.findOneAndUpdate({
+            idBuyerAccount: req.params.idBuyerAccount
+        }, {
+            $pull: {
+                products: req.body.idProduct
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Product sudah dihapus dari keranjang!'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
 //Belum di Test
 export const postOneProductToCart = async(req, res) => {
     try {
@@ -1005,29 +1094,6 @@ export const postOneProductToCart = async(req, res) => {
                 message: 'Product sudah dimasukkan ke keranjang!'
             });
         }
-    } catch (error) {
-        console.log(error);
-        return res.status(401).json({
-            success: false,
-            message: 'Maaf ada gangguan server!'
-        });
-    }
-}
-
-//Belum di Test
-export const deleteOneProductFromCart = async(req, res) => {
-    try {
-        await CartBuyer.findOneAndUpdate({
-            idBuyerAccount: req.params.idBuyerAccount
-        }, {
-            $pull: {
-                "products._id": req.body.idKeranjangProduct
-            }
-        });
-        return res.status(200).json({
-            success: true,
-            message: 'Product sudah dihapus dari keranjang!'
-        });
     } catch (error) {
         console.log(error);
         return res.status(401).json({

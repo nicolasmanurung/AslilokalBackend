@@ -44,7 +44,10 @@ import {
     uploadOrderAttachment,
     updateOrderAttachment,
     getProductByShopId,
-    getProductShopByName
+    getProductShopByName,
+    postOneProductToCartLive,
+    getAllLiveCart,
+    deleteOneProductCart
 } from '../controllers/BuyerControlles';
 
 const routes = async(app) => {
@@ -107,6 +110,7 @@ const routes = async(app) => {
     app.route('/buyer/product/detail/:idProduct')
         .get(getOneProductBuyer)
 
+
     // [Done]
     // By Type
     app.route('/buyer/products')
@@ -129,7 +133,6 @@ const routes = async(app) => {
         .get(getProductShopByName)
 
     // Shop
-
     // [Done]
     app.route('/buyer/shops')
         .get(getShopList)
@@ -162,11 +165,15 @@ const routes = async(app) => {
     // [Done]
     app.route('/buyer/cart/:idBuyerAccount')
         .post(loginRequiredBuyer, postOneProductToCart)
-        .delete(loginRequiredBuyer, deleteMultipleProductFromCart)
+        //.delete(loginRequiredBuyer, deleteMultipleProductFromCart)
         .put(loginRequiredBuyer, putOneProductCart)
         .get(loginRequiredBuyer, getKeranjangBuyer)
 
-    // Order
+    app.route('/buyer/cart/live/:idBuyerAccount')
+        .get(loginRequiredBuyer, getAllLiveCart)
+        .delete(loginRequiredBuyer, deleteOneProductCart)
+        .post(loginRequiredBuyer, postOneProductToCartLive)
+        // Order
 
     // [Done]
     app.route('/buyer/order')
