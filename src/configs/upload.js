@@ -117,6 +117,8 @@ export const updateSellerImg = multer({
     })
 })
 
+
+
 // Belum Test
 export const updateProductImg = multer({
     fileFilter,

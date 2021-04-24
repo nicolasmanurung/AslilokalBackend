@@ -17,6 +17,7 @@ import { NotificationSchema } from '../models/NotificationModel';
 import { LiveCartBuyerSchema } from '../models/LiveCartBuyer';
 import {
     uploadUsrImg,
+    updateSellerImg,
     uploadAttachOrder,
     updateAttachOrder
 } from '../configs/upload';
@@ -53,7 +54,7 @@ const uploadMultipleBiodata = uploadUsrImg.fields([{
 const uploadAttachmentOrder = uploadAttachOrder.single('orderAttachmentImg')
 
 // UPDATE
-const imgSelfBuyerUpdate = uploadUsrImg.single('imgSelfBuyerUpdate');
+const imgSelfBuyerUpdate = updateSellerImg.single('imgSelfBuyer');
 const imgUpdateOrderEvidance = updateAttachOrder.single("orderAttachmentImg");
 
 export const loginRequiredBuyer = async(req, res, next) => {
@@ -1021,7 +1022,7 @@ export const getAllLiveCart = async(req, res) => {
             allIdProduct = keranjang.products;
         } else {
             return res.status(200).json({
-                success: true,
+                success: false,
                 message: 'Data berhasil di ambil...',
                 result: []
             });
