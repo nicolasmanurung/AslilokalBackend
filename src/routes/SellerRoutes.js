@@ -44,7 +44,8 @@ import {
     deleteVoucherById,
     getAllHistoryRevenueOrder,
     postOneRevenueOrder,
-    getRevenueSum
+    getRevenueSum,
+    getShopStatusSeller
 } from '../controllers/SellerControllers';
 
 const routes = async(app) => {
@@ -103,6 +104,9 @@ const routes = async(app) => {
     app.route('/seller/account')
         .post(loginRequiredSeller, uploadMultipleImg, fillData)
         // ktpImgSeller, imgSelfSeller - postSellerBiodata 
+
+    app.route('/seller/account/status/:idSellerAccount')
+        .get(loginRequiredSeller, getShopStatusSeller)
 
     // [Done]
     app.route('/seller/account/detail/:idSellerAccount')

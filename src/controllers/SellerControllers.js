@@ -126,20 +126,20 @@ export const sellerRegisterAccount = async(req, res) => {
         } else if (!findSellerAccount) {
             try {
                 const data = {
-                    from: 'Kodelapo Account <no-reply@kodelapo.com>',
+                    from: 'Aslilokal Account <no-reply@aslilokal.com>',
                     to: newSeller.emailSeller,
                     subject: 'Email verifikasi',
                     html: `<table dir="ltr">
                     <tbody>
                         <tr>
-                            <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                            <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Aslilokal</span></td>
                         </tr>
                         <tr>
                             <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
                         </tr>
                         <tr>
                             <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                                Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + newSeller.emailSeller + `" target="_blank">` + newSeller.emailSeller + `</a>.
+                                Gunakan kode keamanan berikut untuk akun <span class="il">Aslilokal Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + newSeller.emailSeller + `" target="_blank">` + newSeller.emailSeller + `</a>.
                             </td>
                         </tr>
                         <tr>
@@ -151,7 +151,7 @@ export const sellerRegisterAccount = async(req, res) => {
                             <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
                         </tr>
                         <tr>
-                            <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                            <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Aslilokal</span></td>
                         </tr>
                     </tbody>
                 </table>`
@@ -194,6 +194,32 @@ export const sellerRegisterAccount = async(req, res) => {
                     message: 'Maaf ada gangguan server!'
                 });
             }
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getShopStatusSeller = async(req, res) => {
+    try {
+        const dataShop = await SellerAccount.findById(req.params.idSellerAccount);
+        console.log(dataShop.emailVerifyStatus);
+        if (dataShop != null) {
+            return res.status(200).json({
+                success: true,
+                message: "Berhasil mengambil data...",
+                emailVerifyStatus: dataShop.emailVerifyStatus,
+                shopVerifyStatus: dataShop.shopVerifyStatus
+            })
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: 'Maaf ada gangguan server!'
+            });
         }
     } catch (error) {
         console.log(error);
@@ -265,20 +291,20 @@ export const postResubmitTokenSeller = async(req, res) => {
             })
             await token.save();
             const data = {
-                from: 'Kodelapo Account <no-reply@kodelapo.com>',
+                from: 'Aslilokal Account <no-reply@aslilokal.com>',
                 to: emailAccount,
                 subject: 'Email verifikasi',
                 html: `<table dir="ltr">
                 <tbody>
                     <tr>
-                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Aslilokal</span></td>
                     </tr>
                     <tr>
                         <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
                     </tr>
                     <tr>
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Aslilokal Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
                         </td>
                     </tr>
                     <tr>
@@ -290,7 +316,7 @@ export const postResubmitTokenSeller = async(req, res) => {
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
                     </tr>
                     <tr>
-                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Aslilokal</span></td>
                     </tr>
                 </tbody>
             </table>`
@@ -312,20 +338,20 @@ export const postResubmitTokenSeller = async(req, res) => {
         } else {
             tokenVerify = oneToken.tokenVerify;
             const data = {
-                from: 'Kodelapo Account <no-reply@kodelapo.com>',
+                from: 'Aslilokal Account <no-reply@aslilokal.com>',
                 to: emailAccount,
                 subject: 'Email verifikasi',
                 html: `<table dir="ltr">
                 <tbody>
                     <tr>
-                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Kodelapo</span></td>
+                        <td style="padding:0;font-family:'Segoe UI Semibold','Segoe UI Bold','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:17px;color:#FF7676">Akun <span class="il">Aslilokal</span></td>
                     </tr>
                     <tr>
                         <td style="padding:0;font-family:'Segoe UI Light','Segoe UI','Helvetica Neue Medium',Arial,sans-serif;font-size:41px;color:#2672ec">Kode keamanan</td>
                     </tr>
                     <tr>
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">
-                            Gunakan kode keamanan berikut untuk akun <span class="il">Kodelapo Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
+                            Gunakan kode keamanan berikut untuk akun <span class="il">Aslilokal Seller</span> <a dir="ltr" id="m_6439999066462717123iAccount" class="m_6439999066462717123link" style="color:#2672ec;text-decoration:none" href="` + emailAccount + `" target="_blank">` + emailAccount + `</a>.
                         </td>
                     </tr>
                     <tr>
@@ -337,7 +363,7 @@ export const postResubmitTokenSeller = async(req, res) => {
                         <td style="padding:0;padding-top:25px;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Terima kasih,</td>
                     </tr>
                     <tr>
-                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Kodelapo</span></td>
+                        <td style="padding:0;font-family:'Segoe UI',Tahoma,Verdana,Arial,sans-serif;font-size:14px;color:#2a2a2a">Tim akun <span class="il">Aslilokal</span></td>
                     </tr>
                 </tbody>
             </table>`
