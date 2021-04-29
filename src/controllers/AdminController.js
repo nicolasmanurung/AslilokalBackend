@@ -176,7 +176,7 @@ export const putShopRevenueRequest = async(req, res) => {
             statusRevenue: req.params.statusRevenue
         }, {
             $set: {
-                acceptAt: new Date.now
+                acceptAt: new Date(Date.now())
             }
         });
 
