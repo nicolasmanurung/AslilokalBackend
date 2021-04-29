@@ -7,6 +7,7 @@ import { OrderRevenueSchema } from '../models/OrderRevenue';
 import { OrderSchema } from '../models/OrderModel';
 import { SellerShopSchema } from '../models/SellerShopModel';
 import { ProductSchema } from '../models/ProductModel';
+import { NotificationSchema } from '../models/NotificationModel';
 
 const AdminAccount = mongoose.model('AdminAccount', AdminAccountSchema);
 const SellerAccount = mongoose.model('SellerAccount', SellerAccountSchema);
@@ -14,6 +15,7 @@ const OrderRevenue = mongoose.model('OrderRevenue', OrderRevenueSchema);
 const Order = mongoose.model('Order', OrderSchema);
 const SellerShop = mongoose.model('SellerShop', SellerShopSchema);
 const Product = mongoose.model('Product', ProductSchema);
+const Notification = mongoose.model('Notification', NotificationSchema);
 
 export const loginRequiredAdmin = async(req, res, next) => {
     if (req.user) {
