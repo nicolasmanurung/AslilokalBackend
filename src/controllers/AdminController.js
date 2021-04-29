@@ -135,6 +135,25 @@ export const putStatusShop = async(req, res) => {
     }
 }
 
+export const getShopBiodata = async(req, res) => {
+    try {
+        const oneShopBiodata = await SellerShop.findOne({
+            idSellerAccount: req.params.idSellerAccount
+        });
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil',
+            result: oneShopBiodata
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
 export const getShopRevenueRequest = async(req, res) => {
     try {
         const allRevenueRequest = await OrderRevenue.find({
@@ -219,6 +238,23 @@ export const getAllOrderWithStatus = async(req, res) => {
             success: true,
             message: 'Berhasil',
             result: allOrder
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: 'Maaf ada gangguan server!'
+        });
+    }
+}
+
+export const getDetailOrder = async(req, res) => {
+    try {
+        const oneOrder = await Order.findById(req.params.idOrder);
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil mengambil data',
+            result: oneOrder
         });
     } catch (error) {
         console.log(error);
@@ -319,7 +355,6 @@ export const getAllShop = async(req, res) => {
             passSeller: 0
         });
 
-
         return res.status(200).json({
             success: true,
             message: 'Berhasil',
@@ -331,6 +366,21 @@ export const getAllShop = async(req, res) => {
             success: false,
             message: 'Maaf ada gangguan server!'
         });
+    }
+}
+
+export const getOneShop = async(req, res) => {
+    try {
+        const oneShop = await SellerAccount.findById(req.params.idSellerAccount, {
+            passSeller: 0
+        });
+        return res.status(200).json({
+            success: true,
+            message: 'Berhasil',
+            result: oneShop
+        });
+    } catch (error) {
+
     }
 }
 

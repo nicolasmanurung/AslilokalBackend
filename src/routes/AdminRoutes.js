@@ -10,7 +10,10 @@ import {
     putAdminStatusOrder,
     getAllOrderPaymentRequired,
     getAllShop,
-    putAslilokalShop
+    putAslilokalShop,
+    getDetailOrder,
+    getShopBiodata,
+    getOneShop
 } from '../controllers/AdminController';
 
 const routes = async(app) => {
@@ -25,6 +28,12 @@ const routes = async(app) => {
 
     app.route('/admin/allshop')
         .get(loginRequiredAdmin, getAllShop)
+
+    app.route('/admin/shop/detail/:idSellerAccount')
+        .get(loginRequiredAdmin, getShopBiodata)
+
+    app.route('/admin/account/detail/:idSellerAccount')
+        .get(loginRequiredAdmin, getOneShop)
 
     // Revenue
     app.route('/admin/revenue/all')
@@ -45,6 +54,9 @@ const routes = async(app) => {
 
     app.route('/admin/order/status/:idOrder')
         .put(loginRequiredAdmin, putAdminStatusOrder)
+
+    app.route('/admin/order/detail/:idOrder')
+        .get(loginRequiredAdmin, getDetailOrder)
 
     // Aslilokal
     app.route('/admin/aslilokal/:idSellerAccount')
