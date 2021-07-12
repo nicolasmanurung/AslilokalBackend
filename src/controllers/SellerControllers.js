@@ -1089,7 +1089,7 @@ export const putStatusOrder = async(req, res) => {
         });
 
         if(req.body.statusOrder == "done"){
-            await SellerRevenue.findOneAndUpdate(req.paarams.idSellerAccount,{
+            await SellerRevenue.findOneAndUpdate(oneOrder.idSellerAccount,{
             $inc: {
                 sumSaldo: oneOrder.totalProductPrice
             }
