@@ -1093,6 +1093,9 @@ export const putStatusOrder = async(req, res) => {
             $inc: {
                 sumSaldo: oneOrder.totalProductPrice
             }
+        },{
+            new: true,
+            upsert: true
         })
     }
 
