@@ -1081,12 +1081,20 @@ export const getOneOrderSeller = async(req, res) => {
 // Belum Bayar, Dibayar, DiProses, Menunggu, Selesai
 export const putStatusOrder = async(req, res) => {
     try {
-        await Order.findByIdAndUpdate(req.params.idOrder, {
+        const oneOrder = await Order.findByIdAndUpdate(req.params.idOrder, {
             $set: {
                 statusOrder: req.body.statusOrder,
                 acceptAt: new Date(Date.now())
             }
         });
+
+        if(req.body.statusOrder == "done"){
+            await SellerRevenue.findOneAndUpdate(req.paarams.idSellerAccount,{
+            $inc: {
+                sumSaldo: oneOrder.totalProductPrice
+            }
+        })
+    }
 
         const oneNotification = new Notification({
             idUser: req.body.idBuyerAccount,
