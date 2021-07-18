@@ -45,10 +45,11 @@ import {
     getAllHistoryRevenueOrder,
     postOneRevenueOrder,
     getRevenueSum,
-    getShopStatusSeller
+    getShopStatusSeller,
+    putResiCodeOrder
 } from '../controllers/SellerControllers';
 
-const routes = async(app) => {
+const routes = async (app) => {
     // Testing
     app.route('/testing/multiple')
         .post(uploadMultipleImg)
@@ -103,7 +104,7 @@ const routes = async(app) => {
     // [Done]
     app.route('/seller/account')
         .post(loginRequiredSeller, uploadMultipleImg, fillData)
-        // ktpImgSeller, imgSelfSeller - postSellerBiodata 
+    // ktpImgSeller, imgSelfSeller - postSellerBiodata 
 
     app.route('/seller/account/status/:idSellerAccount')
         .get(loginRequiredSeller, getShopStatusSeller)
@@ -112,12 +113,12 @@ const routes = async(app) => {
     app.route('/seller/account/detail/:idSellerAccount')
         .get(loginRequiredSeller, getSellerBiodata)
         .put(loginRequiredSeller, putSellerBiodata)
-        //
+    //
 
     // [Done]
     app.route('/seller/shop')
         .post(loginRequiredSeller, postShopBiodata, fillShopData)
-        // imgShop - postShopBiodata
+    // imgShop - postShopBiodata
 
     // [Done]
     app.route('/seller/shop/detail/:idSellerAccount')
@@ -159,7 +160,6 @@ const routes = async(app) => {
     // Delete
 
     // Voucher
-
     // [Done]
     app.route('/seller/voucher')
         .post(loginRequiredSeller, postOneVoucher)
@@ -206,6 +206,8 @@ const routes = async(app) => {
     app.route('/seller/order/cancel/:idOrder')
         .put(loginRequiredSeller, putAcceptCancelOrder)
 
+    app.route('/seller/order/edit/:idOrder')
+        .put(loginRequiredSeller, putResiCodeOrder)
 
     // Analitik
     // []

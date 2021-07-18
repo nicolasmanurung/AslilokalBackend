@@ -1174,6 +1174,26 @@ export const putStatusOrder = async (req, res) => {
     }
 };
 
+export const putResiCodeOrder = async (req, res) => {
+    try {
+        await Order.findByIdAndUpdate(req.params.idOrder, {
+            $set: {
+                resiCode: req.body.resiCode
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            message: "Berhasil",
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(401).json({
+            success: false,
+            message: "Maaf ada gangguan server!",
+        });
+    }
+}
+
 // Belum di Test
 export const putAcceptCancelOrder = async (req, res) => {
     try {
