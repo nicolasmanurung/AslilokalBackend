@@ -640,7 +640,11 @@ export const getShopIsFollowing = async(req, res) => {
 // Belum di Test
 export const getOneProductBuyer = async(req, res) => {
     try {
-        const oneProduct = await Product.findById(req.params.idProduct);
+        const oneProduct = await Product.findByIdAndUpdate(req.params.idProduct,{
+            $inc: {
+                sumCountView: 1
+            }
+        });
         if (oneProduct) {
             return res.status(200).json({
                 success: true,

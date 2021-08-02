@@ -12,12 +12,34 @@ export const ProductSchema = new Schema({
         type: String,
         required: true
     },
+    typeProduct:{
+        // PRELOVED - PRODUCT
+        type: String
+    },
     productCategory: {
         // Sembako, Jasa, Kuliner, Fashion
+        // next -> makanan, fashion pria, dll
         type: String
     },
     umkmTags: {
         type: String
+    },
+    aslilokalInformation: {
+        city_id: {
+            type: String
+        },
+        province_id: {
+            type: String
+        },
+        province: {
+            type: String
+        },
+        city_name: {
+            type: String
+        },
+        postal_code: {
+            type: String
+        }
     },
     promotionTags: [{
         type: String
